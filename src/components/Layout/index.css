@@ -1,0 +1,172 @@
+.layout-component {
+    width: 100%;
+}
+
+.layout-header {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.layout-app-logo-light {
+    width: 120px;
+    margin-left: 45px;
+}
+
+.nav-menu-box {
+    display: flex;
+    align-items: center;
+    width: 200px;
+    justify-content: space-around;
+}
+
+.profile-light {
+    width: 32px;
+}
+
+
+.menu-btn-icon{
+    display: none;
+}
+.logout-icon{
+    display: none;
+}
+
+.darkmode-icon {
+    width: 25px;
+    margin-right: 10px;
+}
+
+.logout-btn {
+    border: 1px solid #3b82f6;
+    color: #3b82f6;
+    background-color: transparent;
+    height: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0px 12px;
+    border-radius: 3px;
+}
+
+/* layout body */
+
+.layout-body {
+    display: flex;
+}
+
+
+/* side bar */
+
+.layout-sidebar {
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 95vh;
+}
+
+.side-bar-menu-container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-item {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: #0f0f0f;
+    height: 42px;
+}
+
+.menu-item img {
+    width: 20px;
+    margin: 0px 20px 0px 18px;
+    background: transparent;
+}
+
+.active-menu-item {
+    background-color: #f1f5f9;
+}
+
+
+.side-bar-footer {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.side-bar-footer p {
+    font-weight: 400;
+    line-height: 22px;
+}
+
+.side-bar-footer-logo-box {
+    display: flex;
+}
+
+.side-bar-footer-logo-box img {
+    margin: 0px 6px;
+    width: 30px;
+}
+
+.side-bar-footer-logo-box :first-child {
+    margin: 0;
+}
+
+.layout-page-section {
+    width: 100%;
+}
+
+
+
+
+
+@media screen and (max-width:768px) {
+
+    .layout-sidebar {
+        display: none;
+    }
+
+    .layout-header {
+        height: 35px;
+        margin-top: 6px;
+    }
+
+    .nav-menu-box {
+        width: 120px;
+    }
+
+
+    .layout-app-logo-light {
+        width: 100px;
+        margin-left: 15px;
+    }
+
+
+    .profile-light {
+        display: none;
+    }
+
+    .darkmode-icon {
+        width: 20px;
+        margin-right: 0;
+    }
+
+    .logout-btn {
+        display: none;
+    }
+
+    .menu-btn-icon{
+        display: inline-block;
+    }
+    .logout-icon{
+        display: inline-block;
+    }
+    
+
+}
