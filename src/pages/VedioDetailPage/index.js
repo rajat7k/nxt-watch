@@ -1,10 +1,10 @@
 import React from 'react'
 import Layout from '../../components/Layout'
 
-export default function TrendingPage() {
+export default function VideoDetailPage() {
   return (
     <Layout>
-        trending
+
     </Layout>
   )
 }

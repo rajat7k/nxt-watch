@@ -1,0 +1,40 @@
+.route-not-found-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 120px;
+    width: 100%;
+    text-align: center;
+}
+.route-not-found-page div{
+    display: flex;
+    flex-direction: column;
+}
+.route-not-found-page img{
+    width: 500px;
+    height: 400px;
+}
+.page-not-found-heading{
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width:576px) {
+    .route-not-found-page{
+        padding-top: 70px;
+    }
+    .route-not-found-page img{
+        width: 330px;
+        height: 270px;
+    }
+    p{
+        width:230px ;
+        font-size: 12px;
+    }
+    .page-not-found-heading{
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+}

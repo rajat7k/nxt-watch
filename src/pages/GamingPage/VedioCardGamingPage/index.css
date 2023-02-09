@@ -1,0 +1,20 @@
+
+.gaming-page-video-card{
+    all: unset;
+    width: 31%;
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+.gaming-page-card-img{
+    width: 100%;
+}
+.gaming-page-card-title{
+    font-weight: bold;
+}
+
+@media screen and (max-width:576px) {
+    .gaming-page-video-card{
+        width: 44%;
+    }
+}

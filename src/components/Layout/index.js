@@ -1,12 +1,14 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import './index.css'
+
 
 export default function Layout(props) {
 
     const { children } = props
 
     const location = useLocation();
+    const navigate=useNavigate();
 
     const menu = [
         {
@@ -31,6 +33,11 @@ export default function Layout(props) {
         }
     ]
 
+    function handleClickOnLogOutBtn(){
+        localStorage.removeItem("token");
+        navigate('/login')
+    }
+
     return (
         <div className="layout-component">
             <div className="layout-header">
@@ -43,7 +50,7 @@ export default function Layout(props) {
 
                     <img className='logout-icon' src="https://res.cloudinary.com/dbdaib57x/image/upload/v1675852173/exit-2860_m3genw.png" alt="" />
 
-                    <button className='logout-btn' >Logout</button>
+                    <button onClick={handleClickOnLogOutBtn} className='logout-btn' >Logout</button>
                 </div>
             </div>
 
@@ -56,8 +63,7 @@ export default function Layout(props) {
                         {
                             menu.map((item) => {
                                 const isActive = location.pathname === item.path
-                                return <Link to={item.path} className={`menu-item ${isActive && 'active-menu-item'}`} >
-
+                                return <Link to={item.path} key={item.name} className={`menu-item ${isActive && 'active-menu-item'}`} >
                                     <img src={item.icon} alt="" />
                                     <p> {item.name} </p>
 
