@@ -11,8 +11,11 @@ export default function VideoDetailPage() {
   const params = useParams();
   const videoId = params.id;
   const [videoDetails, setVideoDetail] = useState(null);
+  const [isVideoLiked, setIsVideoLiked] = useState(false);
+  const [idVideoDisliked, setVedioDislked] = useState(false);
+  const [isVideoSaved, setIsVideoSaved] = useState(false);
 
-  const contextValue = useContext(StoreContext)
+  const { handleSavedVideosData, handleLikedVediosData, handleDisLikedVediosData, likedVideos, dislikedVideos, savedVideos } = useContext(StoreContext)
 
   const getVideoDetails = async () => {
 
@@ -33,7 +36,29 @@ export default function VideoDetailPage() {
   }
 
   function handleClickOnSavedBtn() {
-    contextValue.handleClickOnSavedVideo(videoDetails)
+    if (isVideoSaved) {
+      setIsVideoSaved(false)
+      handleSavedVideosData(videoDetails, "remove")
+    }
+    else {
+      setIsVideoSaved(true);
+      handleSavedVideosData(videoDetails, "add")
+    }
+  }
+
+  function handleClickOnLikedBtn() {
+    if (isVideoLiked) {
+      setIsVideoLiked(false)
+      handleLikedVediosData(videoDetails?.id, "remove")
+    }
+    else {
+      setIsVideoLiked(true);
+      handleLikedVediosData(videoDetails?.id, "add");
+    }
+  }
+
+  function handleClickOnDisLikedBtn() {
+
   }
 
   useEffect(() => {
@@ -41,6 +66,18 @@ export default function VideoDetailPage() {
     // eslint-disable-next-line 
   }, [])
 
+  useEffect(() => {
+    if (savedVideos.some(item => item.id === videoDetails?.id)) {
+      setIsVideoSaved(true)
+    }
+    if (likedVideos.some(item => item.id === videoDetails?.id)) {
+      setIsVideoLiked(true);
+    }
+    if (dislikedVideos.some(item => item.id === videoDetails.id)) {
+      setVedioDislked(true);
+    }
+    // eslint-disable-next-line
+  }, [videoDetails])
 
   return (
     <Layout>
@@ -58,17 +95,18 @@ export default function VideoDetailPage() {
                 <p> {videoDetails.view_count} views . 2 years ago </p>
 
                 <div className="like-dislike-btn-box">
-                  <button className="like-box">
+                  <button onClick={handleClickOnLikedBtn} className="like-box">
                     <img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1676009412/thumbs-up-11229_wxj4zy.png" alt="" />
-                    Like
+                    {isVideoLiked ? "Liked" : "Like"}
                   </button>
                   <button className="dislike-box">
                     <img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1676009411/thumbs-down-14908_czlkep.png" alt="" />
-                    Dislike
+                    {idVideoDisliked ? "Disliked" : "Dislike"}
                   </button>
                   <button onClick={handleClickOnSavedBtn} className="save-video-box">
                     <img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1676009393/add-folder-11514_cv3ijy.png" alt="" />
-                    Save
+
+                    {isVideoSaved ? "Saved" : "save"}
                   </button>
                 </div>
               </div>

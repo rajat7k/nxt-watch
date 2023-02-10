@@ -3,9 +3,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 120px;
     width: 100%;
     text-align: center;
+    flex-grow: 1;
 }
 .route-not-found-page div{
     display: flex;
@@ -22,9 +22,6 @@
 }
 
 @media screen and (max-width:576px) {
-    .route-not-found-page{
-        padding-top: 70px;
-    }
     .route-not-found-page img{
         width: 330px;
         height: 270px;
