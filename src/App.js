@@ -10,10 +10,12 @@ import ProtectedRoute from './components/ProtecedRoute';
 import VideoDetailPage from './pages/VedioDetailPage';
 import PublicRoute from './components/PublicRoute';
 import NoRouteFoundPage from './pages/NoRouteFoundPage';
+import StoreState from './Context/StoreState';
 
 export default function App() {
   return (
-    <Router>
+   <StoreState>
+     <Router>
       <Routes>
         <Route path='/login' element={ <PublicRoute><LoginPage/> </PublicRoute>}  />
         <Route path='/' element={ <ProtectedRoute><HomePage/></ProtectedRoute> } />
@@ -23,8 +25,8 @@ export default function App() {
         <Route path='/video/detail/:id' element={ <ProtectedRoute> <VideoDetailPage/> </ProtectedRoute> } />
 
         <Route path='*' element={<ProtectedRoute> <NoRouteFoundPage/> </ProtectedRoute>} />
-
       </Routes>
     </Router>
+   </StoreState>
   )
 }

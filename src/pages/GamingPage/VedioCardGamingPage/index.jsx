@@ -4,7 +4,6 @@ import './index.css'
 export default function VideoCardGamingPage(props) {
     const { video } = props
     const { id, thumbnail_url, title, view_count } = video;
-    console.log(id, thumbnail_url, title, view_count)
     return (
         <Link to={`/video/detail/${id}`} className="gaming-page-video-card">
             <img className='gaming-page-card-img' src={thumbnail_url} alt="" />

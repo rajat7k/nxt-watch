@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ReactPlayer from 'react-player/youtube'
 import { useParams } from 'react-router-dom'
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
+import StoreContext from '../../Context';
 import './index.css'
 
 export default function VideoDetailPage() {
@@ -10,6 +11,8 @@ export default function VideoDetailPage() {
   const params = useParams();
   const videoId = params.id;
   const [videoDetails, setVideoDetail] = useState(null);
+
+  const contextValue = useContext(StoreContext)
 
   const getVideoDetails = async () => {
 
@@ -22,8 +25,6 @@ export default function VideoDetailPage() {
         }
       }).then(result => { return result.json() }).catch(err => console.log(err));
 
-      console.log(response.video_details)
-
       setVideoDetail(response.video_details);
     }
     catch (err) {
@@ -31,8 +32,13 @@ export default function VideoDetailPage() {
     }
   }
 
+  function handleClickOnSavedBtn() {
+    contextValue.handleClickOnSavedVideo(videoDetails)
+  }
+
   useEffect(() => {
     getVideoDetails();
+    // eslint-disable-next-line 
   }, [])
 
 
@@ -60,7 +66,7 @@ export default function VideoDetailPage() {
                     <img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1676009411/thumbs-down-14908_czlkep.png" alt="" />
                     Dislike
                   </button>
-                  <button className="save-video-box">
+                  <button onClick={handleClickOnSavedBtn} className="save-video-box">
                     <img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1676009393/add-folder-11514_cv3ijy.png" alt="" />
                     Save
                   </button>
