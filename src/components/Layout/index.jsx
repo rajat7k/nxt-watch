@@ -8,7 +8,7 @@ export default function Layout(props) {
     const { children } = props
 
     const location = useLocation();
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     const menu = [
         {
@@ -33,7 +33,7 @@ export default function Layout(props) {
         }
     ]
 
-    function handleClickOnLogOutBtn(){
+    function handleClickOnLogOutBtn() {
         localStorage.removeItem("token");
         navigate('/login')
     }

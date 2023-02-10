@@ -1,0 +1,58 @@
+.videoDetailPage{
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+}
+.react-player{
+    width: 100%;
+    height: 500px;
+}
+
+.view-count-and-btn-box{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.like-dislike-btn-box{
+    display: flex;
+    align-items: center;
+}
+
+.like-dislike-btn-box button{
+    border: none;
+    background-color: transparent;
+    margin-right: 10px;
+    cursor: pointer;
+}
+.like-dislike-btn-box button img{
+    margin-right: 8px;
+    width: 18px;
+}
+
+.like-box{
+    display: flex;
+    align-items: center;
+}
+
+.save-video-box{
+    display: flex;
+    align-items: center;
+}
+.dislike-box{
+    display: flex;
+    align-items: center;
+}
+
+.vedio-detail-page-profile-img{
+    width: 48px;
+    margin-right: 15px;
+}
+.video-detail-profile-box >div{
+    display: flex;
+    align-items: center;
+}
+
+.video-detail-profile-description{
+    margin-left: 63px;
+}
