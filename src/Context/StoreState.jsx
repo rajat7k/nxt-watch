@@ -37,6 +37,7 @@ const StoreState = (props) => {
         }
         setLikedVideos(id);
     }
+
     const handleDisLikedVediosData = (id, action) => {
         const index = dislikedVideos.findIndex(val => val === id);
 
