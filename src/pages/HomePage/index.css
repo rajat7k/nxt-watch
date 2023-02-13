@@ -93,6 +93,7 @@
     background-color: rgb(30, 27, 194);
     padding: 10px 30px ;
     border-radius: 3px;
+    cursor: pointer;
 }
 .no-search-page p{
     font-size: 18px;

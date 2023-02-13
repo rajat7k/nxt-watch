@@ -79,7 +79,7 @@ export default function HomePage() {
                   <img className='no-search-image' src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png" alt="no videos" />
                   <h2>No Search results Found</h2>
                   <p>Try different key words or remove search filter</p>
-                  <button>Retry</button>
+                  <button onClick={getHomeVediosData} >Retry</button>
                 </div> :
                 // showing videos
                 <div className="home-page-vedio-container">
