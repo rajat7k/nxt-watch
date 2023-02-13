@@ -37,10 +37,10 @@ export default function GamingPage() {
   return (
     <Layout>
       {
-        gamingVideos === null ? <Loader /> : gamingVideos.length === 0 ? <FailurePage /> :
+        gamingVideos === null ? <Loader /> : gamingVideos.length === 0 ? <FailurePage retryFetchingData={getGamingVideos} /> :
 
           <div className="gaming-page">
-            <BannerComponent>Gaming</BannerComponent>
+            <BannerComponent iconName='gaming-icon' >Gaming</BannerComponent>
             <div className="gaming-page-vedio-container">
               {
                 gamingVideos.map((video) => {

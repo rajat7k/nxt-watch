@@ -23,7 +23,7 @@ export default function SavedVideosPage() {
             </p>
           </div> :
           <div className="savedVideo-page" >
-            <BannerComponent>Saved Videos</BannerComponent>
+            <BannerComponent iconName='saved-video-icon' >Saved Videos</BannerComponent>
             <div className="savedVideo-page-vedio-container">
               {
                 savedVideos.map((video) => {

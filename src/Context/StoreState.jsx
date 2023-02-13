@@ -33,7 +33,7 @@ const StoreState = (props) => {
         nxtwatchLogo: 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png',
     }
 
-    const [currentTheme, setCurrentTheme] = useState(lightTheme);
+    const [currentTheme, setCurrentTheme] = useState(darkTheme);
 
 
     const handleClickOnDarkTheme = () => {

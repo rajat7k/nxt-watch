@@ -53,9 +53,12 @@
     }
     .trending-vedio-card-profile-img{
         display: block;
+        margin-right: 10px;
+        margin-left: 10px;
     }
     .trending-vedio-card-detail-container{
         width: 360px;
         margin-top: 15px;
+        margin-left: 0px;
     }
 }

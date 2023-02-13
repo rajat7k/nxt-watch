@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import StoreContext from '../../Context';
+import Icons from '../Icons';
 import ModalLogout from '../ModalLogout';
 import './index.css'
 
@@ -18,22 +19,22 @@ export default function Layout(props) {
         {
             name: 'Home',
             path: '/',
-            icon: 'https://res.cloudinary.com/dbdaib57x/image/upload/v1675848439/home-icon-png_pdc2f2.png'
+            iconName: 'home-icon'
         },
         {
             name: 'Trending',
             path: '/trending',
-            icon: 'https://res.cloudinary.com/dbdaib57x/image/upload/v1675848545/Pngtree_vector_fire_icon_4147155_casltz.png'
+            iconName: 'trending-icon'
         },
         {
             name: 'Gaming',
             path: '/gaming',
-            icon: 'https://res.cloudinary.com/dbdaib57x/image/upload/v1675848459/gamepad_oqcybq.png',
+            iconName: 'gaming-icon',
         },
         {
             name: 'Saved Videos',
             path: '/saved-videos',
-            icon: 'https://res.cloudinary.com/dbdaib57x/image/upload/v1675848446/add_j1hwz5.png'
+            iconName: 'saved-video-icon'
         }
     ]
     const handleCloseModal = () => {
@@ -64,7 +65,7 @@ export default function Layout(props) {
 
             <div className="layout-header" style={{ backgroundColor: currentTheme?.layoutBackgroundColor }}>
                 <Link to='/' >
-                    <img className='layout-app-logo-light' src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png" alt="" /></Link>
+                    <img className='layout-app-logo-light' src={currentTheme?.nxtwatchLogo} alt="" /></Link>
                 <div className="nav-menu-box">
 
                     <img onClick={changeTheme}
@@ -78,11 +79,16 @@ export default function Layout(props) {
 
                     <img className='profile-light' src="https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png " alt="profile" />
 
-                    <img className='menu-btn-icon' src="https://res.cloudinary.com/dbdaib57x/image/upload/v1675852191/open-menu-6208_dhuu84.png" alt="" />
+                    <div className='menu-btn-icon'> {
+                        <Icons iconName='menu-icon' iconColor={currentTheme?.themeName === 'dark' ? '#ffffff' : '#000'} />
+                    }</div>
 
-                    <img className='logout-icon' src="https://res.cloudinary.com/dbdaib57x/image/upload/v1675852173/exit-2860_m3genw.png" alt="" />
+                    <div className='logout-icon' onClick={handleOpenModal}> {
+                        <Icons iconName='logout-icon' iconColor={currentTheme?.themeName === 'dark' ? '#ffffff' : '#000'} />
+                    }</div>
 
-                    <button onClick={handleOpenModal} className='logout-btn'
+
+                    <button onClick={handleOpenModal} className={`logout-btn ${currentTheme?.themeName}theme-logout-btn`}
                         style={{
                             color: currentTheme?.themeName === 'dark' ? '#ffffff' : '#3b82f6',
                         }}
@@ -109,7 +115,7 @@ export default function Layout(props) {
                                         backgroundColor: isActive ? currentTheme?.menuActiveItmeBackgroundColor : "none",
                                     }}
                                 >
-                                    <img src={item.icon} alt="" />
+                                    {<Icons iconName={item.iconName} iconColor={isActive ? '#ff0000' : currentTheme?.normalTextColor} />}
                                     <p> {item.name} </p>
 
                                 </Link>

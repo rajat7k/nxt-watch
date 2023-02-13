@@ -21,13 +21,14 @@
     line-height: 25px;
     color: #231f20;
 }
-.home-vedio-card-name{
+.home-vedio-card-name-box{
     color: #64748b;
-    margin: 10px 0px;
+    font-size: 15px;
 }
-.home-vedio-card-vedio-count{
-    color: #64748b;
+.home-vedio-card-name-box p{
+    margin: 5px 0px;
 }
+
 
 @media screen and (max-width:768px) {
     .link-home-vedio{
@@ -49,5 +50,7 @@
     .home-vedio-card-vedio-count{
         margin-top: 0px;
     }
-    
+    .home-vedio-card-profile-img{
+        margin-left: 15px;
+    }
 }

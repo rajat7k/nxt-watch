@@ -4,6 +4,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+}
+.loginLoader{
+    margin-top: -334px;
+    margin-bottom: 50px;
 }
 .login-card{
     width: 450px;
@@ -11,9 +16,7 @@
     display: flex;
     flex-direction: column;
     box-shadow:  0 5px 10px #f1f5f9 ;
-    margin: auto;
     border-radius: 10px;
-    vertical-align: middle;
 }
 
 .login-logo{
@@ -48,6 +51,12 @@
     margin-top: -4px;
     font-size: 14px;
     margin-bottom: 35px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+.show-password-box input{
+    margin-right: 10px;
 }
 .login-btn{
     height: 40px;

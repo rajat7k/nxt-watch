@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import ReactPlayer from 'react-player/youtube'
 import { useParams } from 'react-router-dom'
 import GetYearDifference from '../../components/GetYearDifference';
+import Icons from '../../components/Icons';
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
 import StoreContext from '../../Context';
@@ -99,22 +100,22 @@ export default function VideoDetailPage() {
 
                 <div className="like-dislike-btn-box">
                   <button onClick={handleClickOnLikedBtn} className="like-box" style={{ color: isVideoLiked ? '#ff0b37' : 'inherit' }}>
-                    <img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1676009412/thumbs-up-11229_wxj4zy.png" alt="" />
+                    {<Icons iconName='like-icon' iconColor={isVideoLiked ? '#ff0b37' : '#64748b'} />}
                     {isVideoLiked ? "Liked" : "Like"}
                   </button>
                   <button className="dislike-box" onClick={handleClickOnDislikeBtn} style={{ color: isVideoDisliked ? '#ff0b37' : 'inherit' }} >
-                    <img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1676009411/thumbs-down-14908_czlkep.png" alt="" />
+                    {<Icons iconName='dislike-icon' iconColor={isVideoDisliked ? '#ff0b37' : '#64748b'} />}
                     {isVideoDisliked ? "Disliked" : "Dislike"}
                   </button>
                   <button onClick={handleClickOnSavedBtn} className="save-video-box" style={{ color: isVideoSaved ? '#ff0b37' : 'inherit' }}>
-                    <img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1676009393/add-folder-11514_cv3ijy.png" alt="" />
+                    {<Icons iconName='save-video-icon' iconColor={isVideoSaved ? '#ff0b37' : '#64748b'} />}
 
-                    {isVideoSaved ? "Saved" : "save"}
+                    {isVideoSaved ? "Saved" : "Save"}
                   </button>
                 </div>
               </div>
 
-              <hr />
+              <hr color={currentTheme?.videoDetailColor} />
 
               <div className="video-detail-profile-box">
                 <div>

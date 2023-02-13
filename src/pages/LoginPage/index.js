@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import Loader from '../../components/Loader';
 import StoreContext from '../../Context';
 import './index.css'
 
@@ -9,8 +10,8 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [passwordType, setPasswordType] = useState('password')
     const [apiErrorResponse, setApiErrorResponse] = useState('');
-    const {currentTheme}=useContext(StoreContext)
-
+    const { currentTheme } = useContext(StoreContext)
+    const [showLoader, setShowLoader] = useState(false);
     const navigate = useNavigate()
 
     function onChangeUserName(event) {
@@ -20,9 +21,8 @@ export default function LoginPage() {
         setPassword(event.target.value)
     }
 
-    function handleClickOnShowPasswordInput(event) {
-        const isChecked = event.target.checked;
-        if (isChecked) {
+    function handleClickOnShowPasswordInput() {
+        if (passwordType !== 'text') {
             setPasswordType('text')
         }
         else {
@@ -54,27 +54,32 @@ export default function LoginPage() {
                 setPassword('');
                 setUserName('');
                 navigate('/');
+
             }
 
         }
         catch (err) {
             console.log(err);
         }
+        setShowLoader(false)
     }
 
 
     function handleClickOnLoginBtn() {
-
+        setShowLoader(true);
         validateUserOnServer();
 
     }
     return (
-        <div className="login-page" style={{background:currentTheme?.themeName==='dark'?'#212121':'#ffffff'}}>
+        <div className="login-page" style={{ background: currentTheme?.themeName === 'dark' ? '#212121' : '#ffffff' }}>
+
+            {showLoader && <div className="loginLoader"><Loader /></div>}
+
             <div className="login-card" style={{
-                boxShadow:currentTheme?.themeName==='dark'?"none":'',
-                background:currentTheme?.themeName==='dark'?'#000000':'#ffffff',
-                color:currentTheme?.normalTextColor
-                
+                boxShadow: currentTheme?.themeName === 'dark' ? "none" : '',
+                background: currentTheme?.themeName === 'dark' ? '#000000' : '#ffffff',
+                color: currentTheme?.normalTextColor
+
             }} >
                 <div className="login-logo">
                     <img className='login-logo-light' src={currentTheme?.nxtwatchLogo} alt="" />
@@ -87,12 +92,12 @@ export default function LoginPage() {
                     <p>PASSWORD</p>
                     <input onChange={onChangePassword} value={password} type={passwordType} placeholder='Password' />
                 </div>
-                <div className="show-password-box" >
-                    <input onChange={handleClickOnShowPasswordInput} type="checkbox" />
+                <div className="show-password-box" onClick={handleClickOnShowPasswordInput}>
+                    <input checked={passwordType !== 'text' ? false : true} type="checkbox" />
                     <label htmlFor="">Show Password</label>
                 </div>
                 <button onClick={handleClickOnLoginBtn} className='login-btn'>Login</button>
-                <p className='login-error-msg' > {apiErrorResponse} </p>
+                {apiErrorResponse !== '' && <p className='login-error-msg' > *{apiErrorResponse} </p>}
             </div>
         </div>
     )

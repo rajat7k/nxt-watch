@@ -24,6 +24,7 @@
 .no-saved-video-img{
     width: 500px;
     height: 400px;
+    padding-bottom: 30px;
 }
 .no-saved-videos-heading{
     font-size: 25px;
@@ -34,6 +35,8 @@
     .savedVideo-page-vedio-container{
         padding-left: 0px;
         margin: auto;
+        padding-top: 0;
+        margin-top: 20px;
     }
     .no-saved-video-img{
         width: 330px;

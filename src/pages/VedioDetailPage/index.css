@@ -32,9 +32,10 @@
     color: #64748b;
     font-weight: bold;
 }
-.like-dislike-btn-box button img{
+.like-dislike-btn-box button svg{
     margin-right: 8px;
     width: 18px;
+    height: 18px;
 }
 
 .like-box{

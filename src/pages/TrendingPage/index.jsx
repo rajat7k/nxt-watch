@@ -36,10 +36,10 @@ export default function TrendingPage() {
   return (
     <Layout>
       {
-        trendingVideos === null ? <Loader /> : trendingVideos.length === 0 ? <FailurePage /> :
+        trendingVideos === null ? <Loader /> : trendingVideos.length === 0 ? <FailurePage retryFetchingData={getTrendingVideos} /> :
 
           <div className="trending-page">
-            <BannerComponent>Trending</BannerComponent>
+            <BannerComponent iconName='trending-icon' >Trending</BannerComponent>
             <div className="trending-page-vedio-container">
               {
                 trendingVideos.map((video) => {

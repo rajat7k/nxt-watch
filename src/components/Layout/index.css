@@ -34,10 +34,11 @@
 }
 
 
-.menu-btn-icon{
+.menu-btn-icon svg{
+    width: 24px;
     display: none;
 }
-.logout-icon{
+.logout-icon svg{
     display: none;
 }
 
@@ -57,7 +58,9 @@
     border-radius: 3px;
     cursor: pointer;
 }
-
+.darktheme-logout-btn{
+    border: 1px solid #ffffff;
+}
 
 /* layout body */
 
@@ -91,14 +94,13 @@
     cursor: pointer;
 }
 
-.menu-item img {
-    width: 20px;
+.menu-item svg {
+    width: 14px;
     margin: 0px 20px 0px 18px;
     background: transparent;
 }
 
 .active-menu-item {
-    color: #ff0000 !important;
     font-weight: bold;
 }
 
@@ -138,6 +140,7 @@
 
 
 
+
 @media screen and (max-width:768px) {
 
     .layout-sidebar {
@@ -165,7 +168,6 @@
     }
 
     .darkmode-icon {
-        width: 20px;
         margin-right: 0;
     }
 
@@ -173,11 +175,12 @@
         display: none;
     }
 
-    .menu-btn-icon{
+    .menu-btn-icon svg{
         display: inline-block;
     }
-    .logout-icon{
+    .logout-icon svg{
         display: inline-block;
+        width: 24px;
     }
     
 

@@ -45,15 +45,19 @@
         width: 360px;
         margin-right: auto;
         flex-direction: column;
+        margin-top: 0px;
     }
     .savedvideos-card-name-box{
         display: flex;
     }
     .savedvideos-card-profile-img{
         display: block;
+        margin-right: 10px;
+        margin-left: 10px;
     }
     .savedvideos-card-detail-container{
         width: 360px;
-    
+        margin-top: 15px;
+        margin-left: 0px;
     }
 }
