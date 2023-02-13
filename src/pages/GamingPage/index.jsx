@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react'
+import BannerComponent from '../../components/Banner';
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
+import FailurePage from '../FailurePage';
+
 import './index.css'
 import VideoCardGamingPage from './VedioCardGamingPage';
 
 export default function GamingPage() {
 
   const [gamingVideos, setGamingVideos] = useState(null);
+
 
   const getGamingVideos = async () => {
     try {
@@ -33,17 +37,10 @@ export default function GamingPage() {
   return (
     <Layout>
       {
-        gamingVideos === null ? <Loader /> :
+        gamingVideos === null ? <Loader /> : gamingVideos.length === 0 ? <FailurePage /> :
 
           <div className="gaming-page">
-            <div className="gaming-banner">
-              <div className="gaming-banner-content">
-                <div className="gaming-banner-logo">
-
-                </div>
-                <p className='gaming-banner-heading'>Gaming</p>
-              </div>
-            </div>
+            <BannerComponent>Gaming</BannerComponent>
             <div className="gaming-page-vedio-container">
               {
                 gamingVideos.map((video) => {

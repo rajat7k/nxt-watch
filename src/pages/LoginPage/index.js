@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import StoreContext from '../../Context';
 import './index.css'
 
 export default function LoginPage() {
@@ -8,6 +9,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [passwordType, setPasswordType] = useState('password')
     const [apiErrorResponse, setApiErrorResponse] = useState('');
+    const {currentTheme}=useContext(StoreContext)
 
     const navigate = useNavigate()
 
@@ -49,6 +51,8 @@ export default function LoginPage() {
             }
             else {
                 localStorage.setItem("token", response.jwt_token)
+                setPassword('');
+                setUserName('');
                 navigate('/');
             }
 
@@ -63,16 +67,17 @@ export default function LoginPage() {
 
         validateUserOnServer();
 
-        setPassword('');
-        setUserName('');
     }
-
     return (
-        <div className="login-page">
-            <div className="login-card">
+        <div className="login-page" style={{background:currentTheme?.themeName==='dark'?'#212121':'#ffffff'}}>
+            <div className="login-card" style={{
+                boxShadow:currentTheme?.themeName==='dark'?"none":'',
+                background:currentTheme?.themeName==='dark'?'#000000':'#ffffff',
+                color:currentTheme?.normalTextColor
+                
+            }} >
                 <div className="login-logo">
-                    <img className='login-logo-light' src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png" alt="" />
-                    <img className='login-logo-dark' src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png" alt="" />
+                    <img className='login-logo-light' src={currentTheme?.nxtwatchLogo} alt="" />
                 </div>
                 <div className="login-input-box">
                     <p>USERNAME</p>
@@ -82,12 +87,12 @@ export default function LoginPage() {
                     <p>PASSWORD</p>
                     <input onChange={onChangePassword} value={password} type={passwordType} placeholder='Password' />
                 </div>
-                <div className="show-password-box">
+                <div className="show-password-box" >
                     <input onChange={handleClickOnShowPasswordInput} type="checkbox" />
                     <label htmlFor="">Show Password</label>
                 </div>
                 <button onClick={handleClickOnLoginBtn} className='login-btn'>Login</button>
-                <p> {apiErrorResponse} </p>
+                <p className='login-error-msg' > {apiErrorResponse} </p>
             </div>
         </div>
     )

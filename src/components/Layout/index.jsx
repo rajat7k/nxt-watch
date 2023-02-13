@@ -1,15 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import StoreContext from '../../Context';
+import ModalLogout from '../ModalLogout';
 import './index.css'
 
 
 export default function Layout(props) {
 
     const { children } = props
-
+    const navigate = useNavigate()
     const location = useLocation();
-    const navigate = useNavigate();
+    const [isLogoutModelOpen, setIsLogoutModelOpen] = useState(false);
 
     const { currentTheme, handleClickOnDarkTheme } = useContext(StoreContext);
 
@@ -35,10 +36,18 @@ export default function Layout(props) {
             icon: 'https://res.cloudinary.com/dbdaib57x/image/upload/v1675848446/add_j1hwz5.png'
         }
     ]
+    const handleCloseModal = () => {
+        setIsLogoutModelOpen(false)
+    }
 
-    function handleClickOnLogOutBtn() {
+    const handleOpenModal = () => {
+        setIsLogoutModelOpen(true)
+    }
+
+    const handleLogoutRequest = () => {
         localStorage.removeItem("token");
-        navigate('/login')
+        navigate('/login');
+        handleCloseModal()
     }
 
     function changeTheme() {
@@ -47,6 +56,12 @@ export default function Layout(props) {
 
     return (
         <div className="layout-component">
+            <ModalLogout
+                isOpen={isLogoutModelOpen}
+                onRequestClose={handleCloseModal}
+                onRequestLogout={handleLogoutRequest}
+            />
+
             <div className="layout-header" style={{ backgroundColor: currentTheme?.layoutBackgroundColor }}>
                 <Link to='/' >
                     <img className='layout-app-logo-light' src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png" alt="" /></Link>
@@ -67,12 +82,17 @@ export default function Layout(props) {
 
                     <img className='logout-icon' src="https://res.cloudinary.com/dbdaib57x/image/upload/v1675852173/exit-2860_m3genw.png" alt="" />
 
-                    <button onClick={handleClickOnLogOutBtn} className='logout-btn' >Logout</button>
+                    <button onClick={handleOpenModal} className='logout-btn'
+                        style={{
+                            color: currentTheme?.themeName === 'dark' ? '#ffffff' : '#3b82f6',
+                        }}
+                    >Logout</button>
                 </div>
             </div>
 
             <div className="layout-body">
 
+                {/* logout modal */}
 
                 <div className="layout-sidebar" style={{
                     backgroundColor: currentTheme?.layoutBackgroundColor,
@@ -110,11 +130,13 @@ export default function Layout(props) {
                 </div>
 
 
-                <div className="layout-page-section">
+                <div className="layout-page-section" style={{
+                    backgroundColor: currentTheme?.allPageBgColor
+                }}>
                     {children}
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }

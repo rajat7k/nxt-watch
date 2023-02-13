@@ -3,6 +3,7 @@
     width: 90%;
     display: flex;
     margin-bottom: 60px;
+    cursor: pointer;
 }
 .trending-vedio-card-thumbnail{
     width: 360px;
@@ -21,6 +22,7 @@
     margin-top: 0px;
     margin-bottom: 12px;
     font-size: 22px;
+    font-weight: bold;
 }
 .trending-vedio-card-name{
     margin-top: 0px;
@@ -54,6 +56,6 @@
     }
     .trending-vedio-card-detail-container{
         width: 360px;
-    
+        margin-top: 15px;
     }
 }

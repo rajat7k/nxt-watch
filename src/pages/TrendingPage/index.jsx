@@ -4,13 +4,11 @@ import Loader from '../../components/Loader';
 import VideoCardTrendingPage from './VideoCardTrendingPage';
 import './index.css'
 import BannerComponent from '../../components/Banner';
-import { useContext } from 'react';
-import StoreContext from '../../Context';
+import FailurePage from '../FailurePage';
 
 export default function TrendingPage() {
 
   const [trendingVideos, setTrendingVideos] = useState(null);
-  const { currentTheme } = useContext(StoreContext)
 
   const getTrendingVideos = async () => {
     try {
@@ -24,6 +22,7 @@ export default function TrendingPage() {
       setTrendingVideos(response.videos)
     }
     catch (err) {
+      setTrendingVideos([])
       console.log(err)
     }
   }
@@ -37,9 +36,9 @@ export default function TrendingPage() {
   return (
     <Layout>
       {
-        trendingVideos === null ? <Loader /> :
+        trendingVideos === null ? <Loader /> : trendingVideos.length === 0 ? <FailurePage /> :
 
-          <div className="trending-page" style={{ backgroundColor: currentTheme?.allPageBgColor }}>
+          <div className="trending-page">
             <BannerComponent>Trending</BannerComponent>
             <div className="trending-page-vedio-container">
               {

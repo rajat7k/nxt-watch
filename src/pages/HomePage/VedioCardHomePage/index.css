@@ -2,6 +2,7 @@
     all: unset;
     width: 31%;
     margin: 0px 2% 15px 0px;
+    cursor: pointer;
 }
 .home-vedio-card-thumbnail{
     width: 100%;
@@ -28,7 +29,6 @@
     color: #64748b;
 }
 
-
 @media screen and (max-width:768px) {
     .link-home-vedio{
         width: 48%;
@@ -42,4 +42,12 @@
     .home-vedio-card-name-box{
         display: flex;
     }
+    .home-vedio-card-name{
+       margin-top: 0px;
+       margin-right: 10px;
+    }
+    .home-vedio-card-vedio-count{
+        margin-top: 0px;
+    }
+    
 }

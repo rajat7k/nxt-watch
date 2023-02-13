@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import ReactPlayer from 'react-player/youtube'
 import { useParams } from 'react-router-dom'
+import GetYearDifference from '../../components/GetYearDifference';
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
 import StoreContext from '../../Context';
@@ -68,7 +69,6 @@ export default function VideoDetailPage() {
     getVideoDetails();
     // eslint-disable-next-line 
   }, [])
-
   useEffect(() => {
     if (savedVideos.some(item => item.id === videoDetails?.id)) {
       setIsVideoSaved(true)
@@ -95,7 +95,7 @@ export default function VideoDetailPage() {
               <p style={{ color: currentTheme?.normalTextColor }} > {videoDetails.title} </p>
               <div className="view-count-and-btn-box">
 
-                <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails.view_count} views . 2 years ago </p>
+                <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails.view_count} views .  {<GetYearDifference pastDate={videoDetails?.published_at} />} years ago </p>
 
                 <div className="like-dislike-btn-box">
                   <button onClick={handleClickOnLikedBtn} className="like-box" style={{ color: isVideoLiked ? '#ff0b37' : 'inherit' }}>
@@ -120,8 +120,11 @@ export default function VideoDetailPage() {
                 <div>
                   <img className='vedio-detail-page-profile-img' src={videoDetails.channel.profile_image_url} alt="" />
                   <div className="video-detail-profile-channel-name-box">
-                    <p style={{ color: currentTheme?.normalTextColor }}> {videoDetails.channel.name} </p>
-                    <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails.channel.subscriber_count} subscribers </p>
+                    <p style={{ color: currentTheme?.normalTextColor }}>
+                      {videoDetails.channel.name}
+                    </p>
+                    <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails.channel.subscriber_count} subscribers
+                    </p>
                   </div>
                 </div>
                 <div style={{ color: currentTheme.themeName === 'light' ? '#475569' : '#ffffff' }} className='video-detail-profile-description' >

@@ -1,15 +1,16 @@
 import React from 'react'
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import GetYearDifference from '../../../components/GetYearDifference';
 import StoreContext from '../../../Context';
 import './index.css'
 
 export default function VideoCardHomePage(props) {
     const { video } = props
-    const { id, title, thumbnail_url, view_count, channel } = video;
+    const { id, title, thumbnail_url, view_count, channel, published_at } = video;
     const { name, profile_image_url } = channel;
     const { currentTheme } = useContext(StoreContext)
-
+    // console.log(published_at)
     return (
         <Link to={`/video/detail/${id}`} className='link-home-vedio'>
             <img className='home-vedio-card-thumbnail' src={thumbnail_url} alt="" />
@@ -19,7 +20,7 @@ export default function VideoCardHomePage(props) {
                     <p className='home-vedio-card-title' style={{ color: currentTheme.normalTextColor }}> {title} </p>
                     <div className='home-vedio-card-name-box' >
                         <p className='home-vedio-card-name' > {name} </p>
-                        <p className='home-vedio-card-vedio-count' > {view_count} views <span>.</span> 2 years ago </p>
+                        <p className='home-vedio-card-vedio-count' >{view_count} . views . <GetYearDifference pastDate={published_at} /> years ago </p>
                     </div>
                 </div>
             </div>

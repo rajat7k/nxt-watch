@@ -13,26 +13,11 @@
 }
 
 
-@media screen and (max-width:768px) {
-    .trending-banner{
-        height: 90px;
-    }
-    .trending-banner-logo{
-        width: 50px;
-        height: 50px;
-    }
-    .trending-banner-heading{
-        font-size: 22px;
-        font-weight: bold;
-        margin-left: 10px;
-    }
-    .trending-banner-content{
-        margin-left: 20px;
-    }
-}
+
 @media screen and (max-width:576px) {
     .trending-page-vedio-container{
         padding-left: 0px;
+        padding-top: 20px;
         margin: auto;
     }
 }

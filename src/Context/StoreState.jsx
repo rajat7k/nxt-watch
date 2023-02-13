@@ -19,6 +19,7 @@ const StoreState = (props) => {
         videoDetailColor: '#64748b',
         allPageBgColor: '#0f0f0f',
         bannerBgColor: '#181818',
+        nxtwatchLogo: 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png',
 
     }
     const lightTheme = {
@@ -29,6 +30,7 @@ const StoreState = (props) => {
         normalTextColor: "#231f20",
         videoDetailColor: '#64748b',
         allPageBgColor: '#f9f9f9',
+        nxtwatchLogo: 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png',
     }
 
     const [currentTheme, setCurrentTheme] = useState(lightTheme);

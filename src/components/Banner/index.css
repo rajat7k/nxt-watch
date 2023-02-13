@@ -21,3 +21,22 @@
     font-weight: bold;
     margin-left: 15px;
 }
+
+
+@media screen and (max-width:768px) {
+    .banner{
+        height: 90px;
+    }
+    .banner-logo{
+        width: 50px;
+        height: 50px;
+    }
+    .banner-heading{
+        font-size: 22px;
+        font-weight: bold;
+        margin-left: 10px;
+    }
+    .banner-content{
+        margin-left: 20px;
+    }
+}

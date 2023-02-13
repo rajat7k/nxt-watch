@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
 import StoreContext from '../../Context';
+import FailurePage from '../FailurePage';
 import './index.css'
 import VideoCardHomePage from './VedioCardHomePage';
 
@@ -23,9 +24,9 @@ export default function HomePage() {
         }
       }).then(result => { return result.json() }).catch(err => console.log(err));
       setVideoArray(response.videos)
-      console.log(response)
     }
     catch (err) {
+      setVideoArray([]);
       console.log(err)
     }
   }
@@ -46,11 +47,10 @@ export default function HomePage() {
     getHomeVediosData('');
   }, [])
 
-  console.log(currentTheme.homeBackgroundColor);
   return (
     <Layout>
       {
-        videosArray === null ? <Loader /> :
+        videosArray === null ? <Loader /> : videosArray.length===0? <FailurePage/> :
           <div className="home-page" style={{backgroundColor:currentTheme?.homeBackgroundColor}}>
 
             <div className='bannerBox' style={{ display: displayBannerBox }}>

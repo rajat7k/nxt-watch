@@ -10,8 +10,7 @@
     background-image: url("https://assets.ccbp.in/frontend/react-js/nxt-watch-banner-bg.png ");
     background-repeat: no-repeat;
     background-size:cover;
-    padding-left: 35px;
-    padding-top: 40px;
+    padding: 40px 0px 20px 35px;
 }
 
 .banner-paragraph{
@@ -58,6 +57,7 @@
     align-items: center;
     width: 70px;
     border: 1px solid grey;
+    cursor: pointer;
 }
 .home-input-container img{
     width: 12px;
