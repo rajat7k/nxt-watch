@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import StoreContext from '../../Context';
 import './index.css'
 
 
@@ -9,6 +10,8 @@ export default function Layout(props) {
 
     const location = useLocation();
     const navigate = useNavigate();
+
+    const { currentTheme, handleClickOnDarkTheme } = useContext(StoreContext);
 
     const menu = [
         {
@@ -38,13 +41,26 @@ export default function Layout(props) {
         navigate('/login')
     }
 
+    function changeTheme() {
+        handleClickOnDarkTheme();
+    }
+
     return (
         <div className="layout-component">
-            <div className="layout-header">
+            <div className="layout-header" style={{ backgroundColor: currentTheme?.layoutBackgroundColor }}>
                 <Link to='/' >
                     <img className='layout-app-logo-light' src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png" alt="" /></Link>
                 <div className="nav-menu-box">
-                    <img className='darkmode-icon' src="https://res.cloudinary.com/dbdaib57x/image/upload/v1675847022/dark-mode-6682_nwv1yc.png" alt="" />
+
+                    <img onClick={changeTheme}
+                        style={{ display: currentTheme?.themeName === 'dark' ? "none" : "block" }}
+                        className='darkmode-icon' src="https://res.cloudinary.com/dbdaib57x/image/upload/v1675847022/dark-mode-6682_nwv1yc.png" alt="" />
+
+                    <img onClick={changeTheme}
+                        style={{ display: currentTheme?.themeName === 'light' ? "none" : "block" }}
+                        className='darkmode-icon'
+                        src="https://assets.ccbp.in/frontend/react-js/light-theme-img.png" alt="" />
+
                     <img className='profile-light' src="https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png " alt="profile" />
 
                     <img className='menu-btn-icon' src="https://res.cloudinary.com/dbdaib57x/image/upload/v1675852191/open-menu-6208_dhuu84.png" alt="" />
@@ -58,13 +74,21 @@ export default function Layout(props) {
             <div className="layout-body">
 
 
-                <div className="layout-sidebar">
+                <div className="layout-sidebar" style={{
+                    backgroundColor: currentTheme?.layoutBackgroundColor,
+                    color: currentTheme?.textColor,
+                }}>
 
                     <div className="side-bar-menu-container">
                         {
                             menu.map((item) => {
                                 const isActive = location.pathname === item.path
-                                return <Link to={item.path} key={item.name} className={`menu-item ${isActive && 'active-menu-item'}`} >
+                                return <Link to={item.path} key={item.name} className={`menu-item ${isActive && 'active-menu-item'}`}
+                                    style={{
+                                        color: currentTheme?.normalTextColor,
+                                        backgroundColor: isActive ? currentTheme?.menuActiveItmeBackgroundColor : "none",
+                                    }}
+                                >
                                     <img src={item.icon} alt="" />
                                     <p> {item.name} </p>
 
@@ -74,13 +98,13 @@ export default function Layout(props) {
                     </div>
 
                     <div className="side-bar-footer">
-                        <h4>CONTACT US</h4>
+                        <h3>CONTACT US</h3>
                         <div className="side-bar-footer-logo-box">
                             <img src="https://assets.ccbp.in/frontend/react-js/nxt-watch-facebook-logo-img.png " alt="facebook logo" />
                             <img src="https://assets.ccbp.in/frontend/react-js/nxt-watch-twitter-logo-img.png " alt="twitter logo" />
                             <img src="https://assets.ccbp.in/frontend/react-js/nxt-watch-linked-in-logo-img.png " alt="linkedin logo" />
                         </div>
-                        <p>Enjoy! Now to see your <br /> channels and <br /> recommandations </p>
+                        <h3>Enjoy! Now to see your <br /> channels and <br /> recommandations </h3>
                     </div>
 
                 </div>

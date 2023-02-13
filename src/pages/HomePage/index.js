@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
+import StoreContext from '../../Context';
 import './index.css'
 import VideoCardHomePage from './VedioCardHomePage';
 
@@ -9,6 +10,8 @@ export default function HomePage() {
   const [videosArray, setVideoArray] = useState(null);
   const [displayBannerBox, setDisplayBannerBox] = useState("block")
   const [searchValue, setSearchValue] = useState('')
+
+  const {currentTheme}=useContext(StoreContext);
 
   const getHomeVediosData = async (value) => {
     try {
@@ -43,11 +46,12 @@ export default function HomePage() {
     getHomeVediosData('');
   }, [])
 
+  console.log(currentTheme.homeBackgroundColor);
   return (
     <Layout>
       {
         videosArray === null ? <Loader /> :
-          <div className="home-page">
+          <div className="home-page" style={{backgroundColor:currentTheme?.homeBackgroundColor}}>
 
             <div className='bannerBox' style={{ display: displayBannerBox }}>
               <img className='banner-nxtwatch-logo' src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png" alt="" />
@@ -59,7 +63,9 @@ export default function HomePage() {
 
             <div className="home-input-container">
               <input onChange={handleChangesOnSearchBox} value={searchValue} type="text" placeholder='Search' />
-              <div onClick={handleClickOnSearchIcon}><img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1675920579/search-2903_hsltcx.png" alt="" /></div>
+              <div onClick={handleClickOnSearchIcon}
+              style={{backgroundColor:currentTheme?.searchBarIconBgColor}} 
+              ><img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1675920579/search-2903_hsltcx.png" alt="" /></div>
             </div>
             {
               videosArray.length === 0 ?

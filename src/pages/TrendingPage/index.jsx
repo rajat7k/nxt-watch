@@ -3,10 +3,14 @@ import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
 import VideoCardTrendingPage from './VideoCardTrendingPage';
 import './index.css'
+import BannerComponent from '../../components/Banner';
+import { useContext } from 'react';
+import StoreContext from '../../Context';
 
 export default function TrendingPage() {
 
   const [trendingVideos, setTrendingVideos] = useState(null);
+  const { currentTheme } = useContext(StoreContext)
 
   const getTrendingVideos = async () => {
     try {
@@ -35,15 +39,8 @@ export default function TrendingPage() {
       {
         trendingVideos === null ? <Loader /> :
 
-          <div className="trending-page">
-            <div className="trending-banner">
-              <div className="trending-banner-content">
-                <div className="trending-banner-logo">
-
-                </div>
-                <p className='trending-banner-heading'>Trending</p>
-              </div>
-            </div>
+          <div className="trending-page" style={{ backgroundColor: currentTheme?.allPageBgColor }}>
+            <BannerComponent>Trending</BannerComponent>
             <div className="trending-page-vedio-container">
               {
                 trendingVideos.map((video) => {

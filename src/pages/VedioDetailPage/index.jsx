@@ -12,10 +12,10 @@ export default function VideoDetailPage() {
   const videoId = params.id;
   const [videoDetails, setVideoDetail] = useState(null);
   const [isVideoLiked, setIsVideoLiked] = useState(false);
-  const [idVideoDisliked, setVedioDislked] = useState(false);
+  const [isVideoDisliked, setIsVideoDisliked] = useState(false);
   const [isVideoSaved, setIsVideoSaved] = useState(false);
 
-  const { handleSavedVideosData, handleLikedVediosData, handleDisLikedVediosData, likedVideos, dislikedVideos, savedVideos } = useContext(StoreContext)
+  const { handleSavedVideosData, handleLikedVediosData, handleDisLikedVediosData, likedVideos, dislikedVideos, savedVideos, currentTheme } = useContext(StoreContext)
 
   const getVideoDetails = async () => {
 
@@ -38,26 +38,29 @@ export default function VideoDetailPage() {
   function handleClickOnSavedBtn() {
     if (isVideoSaved) {
       setIsVideoSaved(false)
-      handleSavedVideosData(videoDetails, "remove")
+      handleSavedVideosData(videoDetails)
     }
     else {
       setIsVideoSaved(true);
-      handleSavedVideosData(videoDetails, "add")
+      handleSavedVideosData(videoDetails)
     }
   }
 
   function handleClickOnLikedBtn() {
-    if (isVideoLiked) {
-      setIsVideoLiked(false)
-      handleLikedVediosData(videoDetails?.id, "remove")
+    if (isVideoDisliked) {
+      handleClickOnDislikeBtn()
     }
-    else {
-      setIsVideoLiked(true);
-      handleLikedVediosData(videoDetails?.id, "add");
-    }
+    setIsVideoLiked(!isVideoLiked)
+    handleLikedVediosData(videoDetails?.id);
+
   }
 
-  function handleClickOnDisLikedBtn() {
+  function handleClickOnDislikeBtn() {
+    if (isVideoLiked) {
+      handleClickOnLikedBtn()
+    }
+    setIsVideoDisliked(!isVideoDisliked)
+    handleDisLikedVediosData(videoDetails?.id);
 
   }
 
@@ -70,11 +73,11 @@ export default function VideoDetailPage() {
     if (savedVideos.some(item => item.id === videoDetails?.id)) {
       setIsVideoSaved(true)
     }
-    if (likedVideos.some(item => item.id === videoDetails?.id)) {
+    if (likedVideos.some(id => id === videoDetails?.id)) {
       setIsVideoLiked(true);
     }
-    if (dislikedVideos.some(item => item.id === videoDetails.id)) {
-      setVedioDislked(true);
+    if (dislikedVideos.some(id => id === videoDetails?.id)) {
+      setIsVideoDisliked(true)
     }
     // eslint-disable-next-line
   }, [videoDetails])
@@ -84,26 +87,26 @@ export default function VideoDetailPage() {
 
       {
         videoDetails === null ? <Loader /> :
-          <div className='videoDetailPage' >
+          <div className='videoDetailPage' style={{ backgroundColor: currentTheme?.allPageBgColor }} >
             <div className='react-player' >
               <ReactPlayer url={videoDetails.video_url} width='100%' height='100%' />
             </div>
             <div className='vedio-detail-description-box' >
-              <p> {videoDetails.title} </p>
+              <p style={{ color: currentTheme?.normalTextColor }} > {videoDetails.title} </p>
               <div className="view-count-and-btn-box">
 
-                <p> {videoDetails.view_count} views . 2 years ago </p>
+                <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails.view_count} views . 2 years ago </p>
 
                 <div className="like-dislike-btn-box">
-                  <button onClick={handleClickOnLikedBtn} className="like-box">
+                  <button onClick={handleClickOnLikedBtn} className="like-box" style={{ color: isVideoLiked ? '#ff0b37' : 'inherit' }}>
                     <img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1676009412/thumbs-up-11229_wxj4zy.png" alt="" />
                     {isVideoLiked ? "Liked" : "Like"}
                   </button>
-                  <button className="dislike-box">
+                  <button className="dislike-box" onClick={handleClickOnDislikeBtn} style={{ color: isVideoDisliked ? '#ff0b37' : 'inherit' }} >
                     <img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1676009411/thumbs-down-14908_czlkep.png" alt="" />
-                    {idVideoDisliked ? "Disliked" : "Dislike"}
+                    {isVideoDisliked ? "Disliked" : "Dislike"}
                   </button>
-                  <button onClick={handleClickOnSavedBtn} className="save-video-box">
+                  <button onClick={handleClickOnSavedBtn} className="save-video-box" style={{ color: isVideoSaved ? '#ff0b37' : 'inherit' }}>
                     <img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1676009393/add-folder-11514_cv3ijy.png" alt="" />
 
                     {isVideoSaved ? "Saved" : "save"}
@@ -117,11 +120,11 @@ export default function VideoDetailPage() {
                 <div>
                   <img className='vedio-detail-page-profile-img' src={videoDetails.channel.profile_image_url} alt="" />
                   <div className="video-detail-profile-channel-name-box">
-                    <p> {videoDetails.channel.name} </p>
-                    <p> {videoDetails.channel.subscriber_count} subscribers </p>
+                    <p style={{ color: currentTheme?.normalTextColor }}> {videoDetails.channel.name} </p>
+                    <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails.channel.subscriber_count} subscribers </p>
                   </div>
                 </div>
-                <div className='video-detail-profile-description' >
+                <div style={{ color: currentTheme.themeName === 'light' ? '#475569' : '#ffffff' }} className='video-detail-profile-description' >
                   {videoDetails.description}
                 </div>
               </div>
@@ -129,6 +132,6 @@ export default function VideoDetailPage() {
           </div>
       }
 
-    </Layout>
+    </Layout >
   )
 }

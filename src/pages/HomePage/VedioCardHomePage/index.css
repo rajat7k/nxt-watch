@@ -13,17 +13,19 @@
 }
 .home-vedio-card-profile-img{
     width: 35px;
+    margin-right: 15px;
 }
 .home-vedio-card-title{
     margin-top: 0px;
-    margin-bottom: 12px;
+    line-height: 25px;
+    color: #231f20;
 }
 .home-vedio-card-name{
-    margin-top: 0px;
-    margin-bottom: 12px;
+    color: #64748b;
+    margin: 10px 0px;
 }
 .home-vedio-card-vedio-count{
-    margin-top: 0px;
+    color: #64748b;
 }
 
 

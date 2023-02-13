@@ -17,6 +17,8 @@
 .like-dislike-btn-box{
     display: flex;
     align-items: center;
+    color: #64748b;
+    font-weight: bold;
 }
 
 .like-dislike-btn-box button{
@@ -24,6 +26,8 @@
     background-color: transparent;
     margin-right: 10px;
     cursor: pointer;
+    color: #64748b;
+    font-weight: bold;
 }
 .like-dislike-btn-box button img{
     margin-right: 8px;
