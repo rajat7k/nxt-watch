@@ -1,5 +1,6 @@
+import queryString from 'query-string';
 import React, { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Loader from '../../components/Loader';
 import StoreContext from '../../Context';
 import './index.css'
@@ -13,6 +14,9 @@ export default function LoginPage() {
     const { currentTheme } = useContext(StoreContext)
     const [showLoader, setShowLoader] = useState(false);
     const navigate = useNavigate()
+    const location =useLocation();
+    const { redirectTo } = queryString.parse(location.search);
+    
 
     function onChangeUserName(event) {
         setUserName(event.target.value)
@@ -53,7 +57,7 @@ export default function LoginPage() {
                 localStorage.setItem("token", response.jwt_token)
                 setPassword('');
                 setUserName('');
-                navigate('/');
+                navigate(redirectTo!==undefined?redirectTo:'/');
 
             }
 
