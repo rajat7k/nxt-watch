@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import Layout from '../../components/Layout'
 import StoreContext from '../../Context'
+import BannerComponent from '../../components/Banner'
 import SavedVideoCard from './SavedVideoCard'
 import './index.css'
-import BannerComponent from '../../components/Banner'
 
 export default function SavedVideosPage() {
 

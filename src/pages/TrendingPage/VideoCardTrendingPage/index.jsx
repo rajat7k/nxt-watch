@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
-import GetYearDifference from '../../../components/GetYearDifference';
+import { routePath } from '../../../constants/RouteConstants';
 import StoreContext from '../../../Context';
+import GetYearDifference from '../../../utils/GetYearDifferenceUtil';
 import './index.css'
 
 export default function VideoCardTrendingPage(props) {
@@ -10,8 +11,9 @@ export default function VideoCardTrendingPage(props) {
     const { id, title, thumbnail_url, view_count, channel, published_at } = video;
     const { name, profile_image_url } = channel;
     const { currentTheme } = useContext(StoreContext)
+
     return (
-        <Link to={`/video/detail/${id}`} className='link-trending-vedio'>
+        <Link to={`${routePath.videoDetailPage}/${id}`} className='link-trending-vedio'>
             <img className='trending-vedio-card-thumbnail' src={thumbnail_url} alt="" />
             <div className='trending-vedio-card-detail-container' >
                 <img className='trending-vedio-card-profile-img' src={profile_image_url} alt="" />
@@ -23,7 +25,8 @@ export default function VideoCardTrendingPage(props) {
                         color: currentTheme?.videoDetailColor
                     }} >
                         <p className='trending-vedio-card-name'> {name} </p>
-                        <p className='trending-vedio-card-vedio-count' > {view_count} views <span>.</span> <GetYearDifference pastDate={published_at} /> years ago </p>
+                        <p className='trending-vedio-card-vedio-count' > {view_count} views <span>.</span> {GetYearDifference(published_at)} years ago </p>
+
                     </div>
                 </div>
             </div>

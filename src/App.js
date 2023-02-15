@@ -1,5 +1,4 @@
 import React from 'react'
-import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
@@ -11,18 +10,21 @@ import VideoDetailPage from './pages/VedioDetailPage';
 import PublicRoute from './components/PublicRoute';
 import NoRouteFoundPage from './pages/NoRouteFoundPage';
 import StoreState from './Context/StoreState';
+import { routePath } from './constants/RouteConstants';
+import './App.css';
 
 export default function App() {
   return (
    <StoreState>
      <Router>
       <Routes>
-        <Route path='/login' element={ <PublicRoute><LoginPage/> </PublicRoute>}  />
-        <Route path='/' element={ <ProtectedRoute><HomePage/></ProtectedRoute> } />
-        <Route path='/trending' element={ <ProtectedRoute><TrendingPage/></ProtectedRoute> } />
-        <Route path='/gaming' element={ <ProtectedRoute><GamingPage/> </ProtectedRoute>} />
-        <Route path='/saved-videos' element={ <ProtectedRoute><SavedVideosPage/></ProtectedRoute> } />
-        <Route path='/video/detail/:id' element={ <ProtectedRoute> <VideoDetailPage/> </ProtectedRoute> } />
+        <Route path={routePath.loginPage} element={ <PublicRoute><LoginPage/> </PublicRoute>}  />
+
+        <Route path={routePath.homePage} element={ <ProtectedRoute><HomePage/></ProtectedRoute> } />
+        <Route path={routePath.trendingPage} element={ <ProtectedRoute><TrendingPage/></ProtectedRoute> } />
+        <Route path={routePath.gamingPage} element={ <ProtectedRoute><GamingPage/> </ProtectedRoute>} />
+        <Route path={routePath.savedVideoPage} element={ <ProtectedRoute><SavedVideosPage/></ProtectedRoute> } />
+        <Route path={`${routePath.videoDetailPage}/:id`} element={ <ProtectedRoute> <VideoDetailPage/> </ProtectedRoute> } />
 
         <Route path='*' element={<ProtectedRoute> <NoRouteFoundPage/> </ProtectedRoute>} />
       </Routes>

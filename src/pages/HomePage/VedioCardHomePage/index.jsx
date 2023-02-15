@@ -1,8 +1,8 @@
 import React from 'react'
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import GetYearDifference from '../../../components/GetYearDifference';
 import StoreContext from '../../../Context';
+import GetYearDifference from '../../../utils/GetYearDifferenceUtil';
 import './index.css'
 
 export default function VideoCardHomePage(props) {
@@ -20,7 +20,7 @@ export default function VideoCardHomePage(props) {
                     <p className='home-vedio-card-title' style={{ color: currentTheme.normalTextColor }}> {title} </p>
                     <div className='home-vedio-card-name-box' >
                         <p className='home-vedio-card-name' > {name} </p>
-                        <p className='home-vedio-card-vedio-count' >{view_count} . views . <GetYearDifference pastDate={published_at} /> years ago </p>
+                        <p className='home-vedio-card-vedio-count' >{view_count} . views .{GetYearDifference(published_at)} years ago </p>
                     </div>
                 </div>
             </div>

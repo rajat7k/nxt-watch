@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import ReactPlayer from 'react-player/youtube'
 import { useParams } from 'react-router-dom'
-import GetYearDifference from '../../components/GetYearDifference';
+
 import Icons from '../../components/Icons';
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
 import StoreContext from '../../Context';
+import GetYearDifference from '../../utils/GetYearDifferenceUtil';
 import './index.css'
 
 export default function VideoDetailPage() {
@@ -96,7 +97,7 @@ export default function VideoDetailPage() {
               <p style={{ color: currentTheme?.normalTextColor }} > {videoDetails.title} </p>
               <div className="view-count-and-btn-box">
 
-                <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails.view_count} views .  {<GetYearDifference pastDate={videoDetails?.published_at} />} years ago </p>
+                <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails.view_count} views .  {GetYearDifference(videoDetails?.published_at)} years ago </p>
 
                 <div className="like-dislike-btn-box">
                   <button onClick={handleClickOnLikedBtn} className="like-box" style={{ color: isVideoLiked ? '#ff0b37' : 'inherit' }}>

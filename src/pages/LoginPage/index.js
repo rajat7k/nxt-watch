@@ -2,6 +2,7 @@ import queryString from 'query-string';
 import React, { useContext, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import Loader from '../../components/Loader';
+import { loginApi } from '../../constants/ApiConstants';
 import StoreContext from '../../Context';
 import './index.css'
 
@@ -37,13 +38,11 @@ export default function LoginPage() {
 
     const validateUserOnServer = async () => {
         try {
-
-            const URL = 'https://apis.ccbp.in/login';
             const userDetails = {
                 "username": userName,
                 "password": password
             }
-            const response = await fetch(URL, {
+            const response = await fetch(loginApi, {
                 method: "POST",
                 body: JSON.stringify(userDetails)
             }).then(result => { return result.json() }).catch(err => console.log(err))

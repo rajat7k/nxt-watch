@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { sideBarMenu } from '../../constants/SideBarMenuConstants';
 import StoreContext from '../../Context';
 import Icons from '../Icons';
 import ModalLogout from '../ModalLogout';
@@ -15,28 +16,7 @@ export default function Layout(props) {
 
     const { currentTheme, handleClickOnDarkTheme } = useContext(StoreContext);
 
-    const menu = [
-        {
-            name: 'Home',
-            path: '/',
-            iconName: 'home-icon'
-        },
-        {
-            name: 'Trending',
-            path: '/trending',
-            iconName: 'trending-icon'
-        },
-        {
-            name: 'Gaming',
-            path: '/gaming',
-            iconName: 'gaming-icon',
-        },
-        {
-            name: 'Saved Videos',
-            path: '/saved-videos',
-            iconName: 'saved-video-icon'
-        }
-    ]
+
     const handleCloseModal = () => {
         setIsLogoutModelOpen(false)
     }
@@ -107,7 +87,7 @@ export default function Layout(props) {
 
                     <div className="side-bar-menu-container">
                         {
-                            menu.map((item) => {
+                            sideBarMenu.map((item) => {
                                 const isActive = location.pathname === item.path
                                 return <Link to={item.path} key={item.name} className={`menu-item ${isActive && 'active-menu-item'}`}
                                     style={{

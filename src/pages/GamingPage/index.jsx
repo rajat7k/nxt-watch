@@ -2,32 +2,40 @@ import React, { useEffect, useState } from 'react'
 import BannerComponent from '../../components/Banner';
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
+import { videosDataApis } from '../../constants/ApiConstants';
+import { doApiCallForVideosData } from '../../utils/ApiUtils/VideosDataApi';
 import FailurePage from '../FailurePage';
-
-import './index.css'
 import VideoCardGamingPage from './VedioCardGamingPage';
+import './index.css'
+
 
 export default function GamingPage() {
 
-  const [gamingVideos, setGamingVideos] = useState(null);
+  const [apiResponse, setApiResponse] = useState({});
 
 
   const getGamingVideos = async () => {
     try {
-      const URL = 'https://apis.ccbp.in/videos/gaming';
-      const response = await fetch(URL, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
-        }
-      }).then(result => { return result.json() }).catch(err => console.log(err));
-      setGamingVideos(response.videos)
+      const videoData = await doApiCallForVideosData(videosDataApis.gamingVideoDataApi)
+      setApiResponse(videoData)
     }
     catch (err) {
-      console.log(err)
+      setApiResponse({});
     }
   }
 
+  function showGamingVideos() {
+    return <div className="gaming-page">
+      <BannerComponent iconName='gaming-icon' >Gaming</BannerComponent>
+      <div className="gaming-page-vedio-container">
+        {
+          apiResponse.videoDataArray.map((video) => {
+            return <VideoCardGamingPage key={video.id} video={video} />
+          })
+        }
+      </div>
+    </div>
+  }
 
 
   useEffect(() => {
@@ -37,18 +45,8 @@ export default function GamingPage() {
   return (
     <Layout>
       {
-        gamingVideos === null ? <Loader /> : gamingVideos.length === 0 ? <FailurePage retryFetchingData={getGamingVideos} /> :
 
-          <div className="gaming-page">
-            <BannerComponent iconName='gaming-icon' >Gaming</BannerComponent>
-            <div className="gaming-page-vedio-container">
-              {
-                gamingVideos.map((video) => {
-                  return <VideoCardGamingPage key={video.id} video={video} />
-                })
-              }
-            </div>
-          </div>
+        apiResponse.statusCode === '200' ? showGamingVideos() : apiResponse.statusCode === '400' ? <FailurePage retryFetchingData={getGamingVideos} /> : <Loader />
 
       }
     </Layout>
