@@ -100,16 +100,16 @@ export default function VideoDetailPage() {
                 <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails.view_count} views .  {GetYearDifference(videoDetails?.published_at)} years ago </p>
 
                 <div className="like-dislike-btn-box">
-                  <button onClick={handleClickOnLikedBtn} className="like-box" style={{ color: isVideoLiked ? '#ff0b37' : 'inherit' }}>
-                    {<Icons iconName='like-icon' iconColor={isVideoLiked ? '#ff0b37' : '#64748b'} />}
+                  <button onClick={handleClickOnLikedBtn} className="like-box" style={{ color: isVideoLiked ? '#3b82f6' : 'inherit' }}>
+                    {<Icons iconName='like-icon' iconColor={isVideoLiked ? '#3b82f6' : '#64748b'} />}
                     {isVideoLiked ? "Liked" : "Like"}
                   </button>
-                  <button className="dislike-box" onClick={handleClickOnDislikeBtn} style={{ color: isVideoDisliked ? '#ff0b37' : 'inherit' }} >
-                    {<Icons iconName='dislike-icon' iconColor={isVideoDisliked ? '#ff0b37' : '#64748b'} />}
+                  <button className="dislike-box" onClick={handleClickOnDislikeBtn} style={{ color: isVideoDisliked ? '#3b82f6' : 'inherit' }} >
+                    {<Icons iconName='dislike-icon' iconColor={isVideoDisliked ? '#3b82f6' : '#64748b'} />}
                     {isVideoDisliked ? "Disliked" : "Dislike"}
                   </button>
-                  <button onClick={handleClickOnSavedBtn} className="save-video-box" style={{ color: isVideoSaved ? '#ff0b37' : 'inherit' }}>
-                    {<Icons iconName='save-video-icon' iconColor={isVideoSaved ? '#ff0b37' : '#64748b'} />}
+                  <button onClick={handleClickOnSavedBtn} className="save-video-box" style={{ color: isVideoSaved ? '#3b82f6' : 'inherit' }}>
+                    {<Icons iconName='save-video-icon' iconColor={isVideoSaved ? '#3b82f6' : '#64748b'} />}
 
                     {isVideoSaved ? "Saved" : "Save"}
                   </button>
