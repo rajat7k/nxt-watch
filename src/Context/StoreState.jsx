@@ -11,7 +11,7 @@ const StoreState = (props) => {
 
 
 
-    const [currentTheme, setCurrentTheme] = useState(darkTheme);
+    const [currentTheme, setCurrentTheme] = useState(lightTheme);
 
 
     const handleClickOnDarkTheme = () => {

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
 import { videosDataApis } from '../../constants/ApiConstants';
+import { ImageUrl } from '../../constants/ImgageUrlConstants';
 import StoreContext from '../../Context';
 import { doApiCallForVideosData } from '../../utils/ApiUtils/VideosDataApi';
 import FailurePage from '../FailurePage';
@@ -39,11 +40,11 @@ export default function HomePage() {
 
   function homeBanner() {
     return <div className='bannerBox' style={{ display: displayBannerBox }}>
-      <img className='banner-nxtwatch-logo' src='https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png' alt="" />
+      <img className='banner-nxtwatch-logo' src={ImageUrl.nxtwatchLogoUrl} alt="" />
       <p className='banner-paragraph' >Buy Nxt Watch Premium prepaid plan with <br /> UPI</p>
       <div className='banner-get-it-now-btn' >GET IT NOW</div>
 
-      <button onClick={handleClickOnCloseBannerBtn} className='banner-close-btn' ><img className='banner-close-icon' src="https://res.cloudinary.com/dbdaib57x/image/upload/v1675919033/close-x-10324_ii9kif.png" alt="" /></button>
+      <button onClick={handleClickOnCloseBannerBtn} className='banner-close-btn' ><img className='banner-close-icon' src={ImageUrl.homeBannerCloseIcon} alt="" /></button>
     </div>
   }
 
@@ -51,7 +52,7 @@ export default function HomePage() {
     return <div className="no-search-page" style={{
       color: currentTheme?.normalTextColor
     }}>
-      <img className='no-search-image' src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png" alt="no videos" />
+      <img className='no-search-image' src={ImageUrl.homeNoSearchResultImage} alt="no videos" />
       <h2>No Search results Found</h2>
       <p>Try different key words or remove search filter</p>
       <button onClick={getHomeVediosData} >Retry</button>
@@ -68,7 +69,7 @@ export default function HomePage() {
         <input onChange={handleChangesOnSearchBox} value={searchValue} type="text" placeholder='Search' />
         <div onClick={handleClickOnSearchIcon}
           style={{ backgroundColor: currentTheme?.searchBarIconBgColor }}
-        ><img src="https://res.cloudinary.com/dbdaib57x/image/upload/v1675920579/search-2903_hsltcx.png" alt="" /></div>
+        ><img src={ImageUrl.homeSearchIcon} alt="" /></div>
       </div>
       {
         apiResponse.videoDataArray.length === 0 ? noSearchContainer()

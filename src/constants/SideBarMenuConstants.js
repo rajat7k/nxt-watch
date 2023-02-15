@@ -2,7 +2,7 @@ export const sideBarMenu = [
     {
         name: 'Home',
         path: '/',
-        iconName: 'home-icon'
+        iconName: 'home-icon', 
     },
     {
         name: 'Trending',

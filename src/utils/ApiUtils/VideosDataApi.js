@@ -9,6 +9,7 @@ export const doApiCallForVideosData = async (URL,value='') => {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
       }).then(result => { return result.json() }).catch(err => console.log(err));
+
       return  {
         statusCode:'200',
         videoDataArray:response.videos,
