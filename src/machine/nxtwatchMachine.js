@@ -1,29 +1,27 @@
 import { createMachine } from "xstate";
+import { loginApi } from "../constants/ApiConstants";
 
-const verifyUserDetail = async (userDetails,URL) => {
+const verifyUserDetail = async (userDetails) => {
+
+    
     try {
-        const response = await fetch(URL, {
+        const response = await fetch(loginApi, {
             method: "POST",
             body: JSON.stringify(userDetails)
         }).then(result => { return result.json() }).catch(err => console.log(err))
 
-
-        if (response.status_code === 400) {
-            console.log(response.error_msg)
-            // setApiErrorResponse(response.error_msg)
+        const responseToSend={
+            statusCode:response?.status_code,
+            errorMsg:response?.error_msg,
+            jwtToken:response?.jwt_token,
         }
-        else {
-            localStorage.setItem("token", response.jwt_token)
-            // setPassword('');
-            // setUserName('');
-            // navigate(redirectTo!==undefined?redirectTo:'/');
-        }
+        return responseToSend;
+    
 
     }
     catch (err) {
-        console.log(err);
+        console.log("fail to verifyUserDetails",err); 
     }
-    // setShowLoader(false)
 }
 
 
@@ -56,7 +54,7 @@ createMachine(
                 loginState:{
                     on:{
                         LOGIN:{
-                            target:'.checkUserDetails'
+                            target:'.checkUserDetails',
                         }
                     },
                     states:{
@@ -65,15 +63,18 @@ createMachine(
                                 id:'verifyUserDetail',
                                 src:(context,event)=>verifyUserDetail(event.userDetails),
                                 onDone:{
-                                    target:"",
-                                    actions:()=>{
+                                    target:"#nxtwatchMachine",
+                                    actions:(context,event)=>{
+                                        console.log("loging Success")
+                                        console.log(event.data)
 
                                     }
                                 },
                                 onError:{
                                     target:'',
-                                    actions:()=>{
-                                        
+                                    actions:(context,event)=>{
+                                        console.log("login fail")
+                                        console.log(event.data)
                                     }
                                 }
                             }

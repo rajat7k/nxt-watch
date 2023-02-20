@@ -1,3 +1,4 @@
+import { useActor } from '@xstate/react';
 import queryString from 'query-string';
 import React, { useContext, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -18,6 +19,9 @@ export default function LoginPage() {
     const location =useLocation();
     const { redirectTo } = queryString.parse(location.search);
     
+    const { stateMachine }=useContext(StoreContext);
+    const [state,send]=useActor(stateMachine);
+    console.log(state)
 
     function onChangeUserName(event) {
         setUserName(event.target.value)
@@ -49,7 +53,6 @@ export default function LoginPage() {
 
 
             if (response.status_code === 400) {
-                console.log(response.error_msg)
                 setApiErrorResponse(response.error_msg)
             }
             else {
@@ -69,6 +72,13 @@ export default function LoginPage() {
 
 
     function handleClickOnLoginBtn() {
+        send({
+            type:'LOGIN',
+            userDetails : {
+                "username": userName,
+                "password": password
+            },
+        })
         setShowLoader(true);
         validateUserOnServer();
 

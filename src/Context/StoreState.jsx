@@ -1,6 +1,8 @@
+import { useInterpret } from '@xstate/react';
 import React, { useState } from 'react'
 import StoreContext from '.'
 import { darkTheme, lightTheme } from '../constants/ThemeConstants';
+import { nxtwatchMachine } from '../machine/nxtwatchMachine';
 
 const StoreState = (props) => {
     const { children } = props
@@ -9,6 +11,7 @@ const StoreState = (props) => {
     const [likedVideos, setLikedVideos] = useState([]);
     const [dislikedVideos, setDislikedVideos] = useState([]);
 
+    const stateMachine = useInterpret(nxtwatchMachine)
 
 
     const [currentTheme, setCurrentTheme] = useState(lightTheme);
@@ -72,6 +75,7 @@ const StoreState = (props) => {
             likedVideos, handleLikedVediosData,
             dislikedVideos, handleDisLikedVediosData,
             currentTheme, handleClickOnDarkTheme,
+            stateMachine,
 
         }} >
             {children}
