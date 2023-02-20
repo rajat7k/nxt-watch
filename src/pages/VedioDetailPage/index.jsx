@@ -27,7 +27,7 @@ export default function VideoDetailPage() {
       const response = await fetch(URL, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
+          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
         }
       }).then(result => { return result.json() }).catch(err => console.log(err));
 

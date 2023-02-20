@@ -1,27 +1,27 @@
 import { useActor } from '@xstate/react';
 import queryString from 'query-string';
 import React, { useContext, useState } from 'react'
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Loader from '../../components/Loader';
-import { loginApi } from '../../constants/ApiConstants';
+import { StatusCodes } from '../../constants/StatusCode';
 import StoreContext from '../../Context';
 import './index.css'
 
 export default function LoginPage() {
 
+    const navigate = useNavigate()
+    const location = useLocation();
+
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordType, setPasswordType] = useState('password')
-    const [apiErrorResponse, setApiErrorResponse] = useState('');
-    const { currentTheme } = useContext(StoreContext)
-    const [showLoader, setShowLoader] = useState(false);
-    const navigate = useNavigate()
-    const location =useLocation();
+    const [passwordType, setPasswordType] = useState(false)
+
+    const { stateMachine, currentTheme } = useContext(StoreContext);
+    const [state, send] = useActor(stateMachine);
+    const apiResponse = state.context.loginApiResponse;
+
     const { redirectTo } = queryString.parse(location.search);
-    
-    const { stateMachine }=useContext(StoreContext);
-    const [state,send]=useActor(stateMachine);
-    const apiResponse=state.context.loginApiResponse;
 
     function onChangeUserName(event) {
         setUserName(event.target.value)
@@ -31,88 +31,61 @@ export default function LoginPage() {
     }
 
     function handleClickOnShowPasswordInput() {
-        if (passwordType !== 'text') {
-            setPasswordType('text')
-        }
-        else {
-            setPasswordType('password')
-        }
-    }
-
-
-    const validateUserOnServer = async () => {
-        try {
-            const userDetails = {
-                "username": userName,
-                "password": password
-            }
-            const response = await fetch(loginApi, {
-                method: "POST",
-                body: JSON.stringify(userDetails)
-            }).then(result => { return result.json() }).catch(err => console.log(err))
-
-
-            if (response.status_code === 400) {
-                setApiErrorResponse(response.error_msg)
-            }
-            else {
-                localStorage.setItem("token", response.jwt_token)
-                setPassword('');
-                setUserName('');
-                navigate(redirectTo!==undefined?redirectTo:'/');
-
-            }
-
-        }
-        catch (err) {
-            console.log(err);
-        }
-        setShowLoader(false)
+        setPasswordType(!passwordType)
     }
 
 
     function handleClickOnLoginBtn() {
         send({
-            type:'LOGIN',
-            userDetails : {
+            type: 'LOGIN',
+            userDetails: {
                 "username": userName,
                 "password": password
             },
-        })      
-        // validateUserOnServer();
+        })
+
     }
 
+    function loginCard() {
+        return <div className="login-card" style={{
+            boxShadow: currentTheme?.themeName === 'dark' ? "none" : '',
+            background: currentTheme?.themeName === 'dark' ? '#000000' : '#ffffff',
+            color: currentTheme?.normalTextColor
+        }} >
+            <div className="login-logo">
+                <img className='login-logo-light' src={currentTheme?.nxtwatchLogo} alt="" />
+            </div>
+            <div className="login-input-box">
+                <p>USERNAME</p>
+                <input onChange={onChangeUserName} value={userName} type="text" placeholder='Username' />
+            </div>
+            <div className="login-input-box">
+                <p>PASSWORD</p>
+                <input onChange={onChangePassword} value={password} type={passwordType ? 'text' : 'password'} placeholder='Password' />
+            </div>
+            <div className="show-password-box" onClick={handleClickOnShowPasswordInput}>
+                <input onChange={e => { }} checked={passwordType} type="checkbox" />
+                <label htmlFor="">Show Password</label>
+            </div>
+            <button onClick={handleClickOnLoginBtn} className='login-btn'>Login</button>
+            {apiResponse?.errorMsg && <p className='login-error-msg' > *{apiResponse?.errorMsg} </p>}
+        </div>
+    }
 
-    console.log(apiResponse)
+    function goToHomePage() {
+        navigate(redirectTo !== undefined ? redirectTo : '/');
+    }
+
     return (
         <div className="login-page" style={{ background: currentTheme?.themeName === 'dark' ? '#212121' : '#ffffff' }}>
 
-            {apiResponse?.status && <div className="loginLoader"><Loader /></div>}
 
-            <div className="login-card" style={{
-                boxShadow: currentTheme?.themeName === 'dark' ? "none" : '',
-                background: currentTheme?.themeName === 'dark' ? '#000000' : '#ffffff',
-                color: currentTheme?.normalTextColor
+            {apiResponse.statusCode === StatusCodes.processingCode && <div className="loginLoader"><Loader /></div>}
 
-            }} >
-                <div className="login-logo">
-                    <img className='login-logo-light' src={currentTheme?.nxtwatchLogo} alt="" />
-                </div>
-                <div className="login-input-box">
-                    <p>USERNAME</p>
-                    <input onChange={onChangeUserName} value={userName} type="text" placeholder='Username' />
-                </div>
-                <div className="login-input-box">
-                    <p>PASSWORD</p>
-                    <input onChange={onChangePassword} value={password} type={passwordType} placeholder='Password' />
-                </div>
-                <div className="show-password-box" onClick={handleClickOnShowPasswordInput}>
-                    <input checked={passwordType !== 'text' ? false : true} type="checkbox" />
-                    <label htmlFor="">Show Password</label>
-                </div>
-                <button onClick={handleClickOnLoginBtn} className='login-btn'>Login</button>
-                {apiResponse?.errorMsg && <p className='login-error-msg' > *{apiResponse?.errorMsg} </p>}
-            </div>
+            {apiResponse.statusCode === StatusCodes.successCode && goToHomePage()}
+
+            {loginCard()}
+
         </div>
     )
 }

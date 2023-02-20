@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react'
+import { useActor } from '@xstate/react';
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { sideBarMenu } from '../../constants/SideBarMenuConstants';
 import StoreContext from '../../Context';
@@ -14,7 +15,9 @@ export default function Layout(props) {
     const location = useLocation();
     const [isLogoutModelOpen, setIsLogoutModelOpen] = useState(false);
 
-    const { currentTheme, handleClickOnDarkTheme } = useContext(StoreContext);
+    const { currentTheme, handleClickOnDarkTheme, stateMachine } = useContext(StoreContext);
+    const [state, send] = useActor(stateMachine);
+
 
 
     const handleCloseModal = () => {
@@ -26,7 +29,10 @@ export default function Layout(props) {
     }
 
     const handleLogoutRequest = () => {
-        localStorage.removeItem("token");
+        send({
+            type: 'LOGOUT',
+            to: '#userState'
+        });
         navigate('/login');
         handleCloseModal()
     }
@@ -34,6 +40,8 @@ export default function Layout(props) {
     function changeTheme() {
         handleClickOnDarkTheme();
     }
+
+    console.log(state.value)
 
     return (
         <div className="layout-component">
