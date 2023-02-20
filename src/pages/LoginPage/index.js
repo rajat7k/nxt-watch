@@ -21,7 +21,7 @@ export default function LoginPage() {
     
     const { stateMachine }=useContext(StoreContext);
     const [state,send]=useActor(stateMachine);
-    console.log(state)
+    const apiResponse=state.context.loginApiResponse;
 
     function onChangeUserName(event) {
         setUserName(event.target.value)
@@ -78,15 +78,16 @@ export default function LoginPage() {
                 "username": userName,
                 "password": password
             },
-        })
-        setShowLoader(true);
-        validateUserOnServer();
-
+        })      
+        // validateUserOnServer();
     }
+
+
+    console.log(apiResponse)
     return (
         <div className="login-page" style={{ background: currentTheme?.themeName === 'dark' ? '#212121' : '#ffffff' }}>
 
-            {showLoader && <div className="loginLoader"><Loader /></div>}
+            {apiResponse?.status && <div className="loginLoader"><Loader /></div>}
 
             <div className="login-card" style={{
                 boxShadow: currentTheme?.themeName === 'dark' ? "none" : '',
@@ -110,7 +111,7 @@ export default function LoginPage() {
                     <label htmlFor="">Show Password</label>
                 </div>
                 <button onClick={handleClickOnLoginBtn} className='login-btn'>Login</button>
-                {apiErrorResponse !== '' && <p className='login-error-msg' > *{apiErrorResponse} </p>}
+                {apiResponse?.errorMsg && <p className='login-error-msg' > *{apiResponse?.errorMsg} </p>}
             </div>
         </div>
     )

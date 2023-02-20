@@ -1,4 +1,4 @@
-import { createMachine } from "xstate";
+import { assign, createMachine } from "xstate";
 import { loginApi } from "../constants/ApiConstants";
 
 const verifyUserDetail = async (userDetails) => {
@@ -14,9 +14,15 @@ const verifyUserDetail = async (userDetails) => {
             statusCode:response?.status_code,
             errorMsg:response?.error_msg,
             jwtToken:response?.jwt_token,
-        }
-        return responseToSend;
-    
+        }        
+        return  new Promise((resolve,reject)=>{
+            if(response.status_code>=400){
+                return  reject(responseToSend)
+            }  
+            else{
+                return resolve(responseToSend)
+            } 
+        })
 
     }
     catch (err) {
@@ -27,7 +33,8 @@ const verifyUserDetail = async (userDetails) => {
 
 
 export const nxtwatchMachine=
-/** @xstate-layout N4IgpgJg5mDOIC5QDsAeAXA7gQ3QYwAsBZbQgS2TADoyIAbMAYgG0AGAXUVAAcB7WMujK9kXEKkQBaAKxUAbAE5WCgOwKALCukr1CuQBoQATykAmBQA4q006wvrWAZlYBGddIvSAvl8NosuIQk5JQ09EzMLpxIIHwCQiJiEggy8kqqGlo6eoYmKaY21rrqFhZyKmqmjo5yPn4YOPjEpAQU1HS8UBQAyui4TAAyAPIA4gCSAHJs0Tz8gsKiMcmSKqbyKq7qjtIKCqb2KgbGiC57VCqOpnKncvt6bnUg-o1BLW1UHV3Ivf1UhGB4ADWAFVYGAAE4AETAfTIdFgjAgImoFAAbrxAdRURCyAAzIygiHQ2F0aZiOLzRJLRCOFzWbYeZymdQFVjqXInS5UbblaQ1PZyCymFyPZ6BZohdqdHp9dDUf5AwlQmHYOEIiHg3jgqjcOi4XFagC2VGx4LxBLBypJZJiFISi1AyS5tmufMcqhUnmk0iOeXsVCULlYpg2ijcim8ot4EDgYjFTWCrUo5Lm9qSUhcWnWm22u32ml9UkcZSorDLZc8jncrAjooa4sT71oDBT8QW6ZSLhD2bcub2B0L+QUjioZWkwekmcU6kFdYCCbeoU+Mv6rcpDvEGdsPa2O37BY5+WsnrcLhccndm10jjnLwlSalXx+cr+BABIMtxNV8LXaepCHUOkBVsCxgxZcd2WOBAXH9CwuxKJxz2FVZal8J56wXSUqAAV0tZ8wF-dt-0kM81nKHM93zQ5D0uVgqCuIUa2HVQbHUHwfCAA */
+
+/** @xstate-layout N4IgpgJg5mDOIC5QDsAeAXA7gQ3QYwAsBZbQgS2TADoyIAbMAYgG0AGAXUVAAcB7WMujK9kXEKkQBGAGwBmKgE4A7ApnTpC1qwAsknQBoQATykKArFVmtNsgEy3Z2gBy6lAXzeG0WXIRLlKGnomZklOJBA+ASERMQkEaVtDEwRtOSpbJ1ZZBQ1tWUdzDy8MHHxiUgIKajpeKAoAZXRcJgAZAHkAcQBJADk2cJ5+QWFRCPinJWTEaVYlKidJW1YnZaVJBVXbYpBvMr9K6qpa+uQmlqpCMDwAawBVWDAAJwARMGayOlhGCBFqCgAbrwbtQAc8yAAzIwPZ5vD50AZiKIjWLjRC6CzSMxOLLabS2MxKJQE2TTBDYyRUJTqOYKWzKWaOHZ7XwVAI1OqNZroahXW4w17vbCfb7PJ68J5Ubh0XAQiUAWyoYKekOhj0F8MREWRMTGoHiGKoWJxOnxhOJZlJxkQSlYlPyZnpZlmCk2sicHk8u14EDgYhZ5X8VUoSOGuriiAAtAoyZHpMzSqyg0daAxQ9FRhHUklrQhFlRtCpJNTMptzHaEz5A4dAicuS10yi9eJEDkyY7WFRJLI5LZJNprHMzApK-s2cGOadzjzLgRrvd1XDhV9G+G0QgNk4qJbpPlpJJFssnNIprnZvN92ZtITWJl9x6vQGDuyqABXdXTsCrzPr3fSbe5PS6iSFesxmGSaRbtS5jOtITjDpoOiem4QA */
 createMachine(
         {
             predictableActionArguments: true,
@@ -35,7 +42,8 @@ createMachine(
             initial:'idle',
             context:{
                 token:'',
-
+                loginApiResponse:{
+                },
             },
             states:{
                 idle:{
@@ -55,6 +63,11 @@ createMachine(
                     on:{
                         LOGIN:{
                             target:'.checkUserDetails',
+                            actions:assign({
+                                loginApiResponse:()=>{
+                                    return {status:'pending'}
+                                }
+                            })
                         }
                     },
                     states:{
@@ -63,27 +76,36 @@ createMachine(
                                 id:'verifyUserDetail',
                                 src:(context,event)=>verifyUserDetail(event.userDetails),
                                 onDone:{
-                                    target:"#nxtwatchMachine",
-                                    actions:(context,event)=>{
-                                        console.log("loging Success")
-                                        console.log(event.data)
-
-                                    }
+                                    target:"#userState",
+                                    actions:['assignLoginApiResponse','saveTokenToLocalStorage']
+                                        
+                                    
+                                   
                                 },
                                 onError:{
-                                    target:'',
-                                    actions:(context,event)=>{
-                                        console.log("login fail")
-                                        console.log(event.data)
-                                    }
+                                    target:'#nxtwatchMachine',
+                                    actions:'assignLoginApiResponse'
                                 }
                             }
                         }
                     }
                 },
                 userState:{
+                    id:'userState',
 
                 }
+            }
+        },
+        {
+            actions:{
+                saveTokenToLocalStorage:(context,event)=>{
+                        localStorage.setItem('jwt_token',event.data.jwtToken);
+                },
+                assignLoginApiResponse:assign({
+                    loginApiResponse:(context, event) => {
+                        return event.data;
+                      }
+                }),
             }
         }
 )

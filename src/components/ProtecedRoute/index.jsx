@@ -7,7 +7,7 @@ export default function ProtectedRoute(props) {
     const { children } = props;
     const prevLocation = useLocation().pathname;
 
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("jwt_token")) {
         return children;
     }
     else {
