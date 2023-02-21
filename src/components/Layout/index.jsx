@@ -15,8 +15,8 @@ export default function Layout(props) {
     const location = useLocation();
     const [isLogoutModelOpen, setIsLogoutModelOpen] = useState(false);
 
-    const { currentTheme, handleClickOnDarkTheme, stateMachine } = useContext(StoreContext);
-    const [state, send] = useActor(stateMachine);
+    const { currentTheme, handleClickOnDarkTheme, userStateMachine } = useContext(StoreContext);
+    const [, send] = useActor(userStateMachine);
 
 
 
@@ -29,10 +29,7 @@ export default function Layout(props) {
     }
 
     const handleLogoutRequest = () => {
-        send({
-            type: 'LOGOUT',
-            to: '#userState'
-        });
+        send('LOGOUT');
         navigate('/login');
         handleCloseModal()
     }
@@ -41,7 +38,6 @@ export default function Layout(props) {
         handleClickOnDarkTheme();
     }
 
-    console.log(state.value)
 
     return (
         <div className="layout-component">

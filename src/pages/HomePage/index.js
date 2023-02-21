@@ -1,30 +1,34 @@
+import {useMachine } from '@xstate/react';
 import React, { useContext, useEffect, useState } from 'react'
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
 import { videosDataApis } from '../../constants/ApiConstants';
 import { ImageUrl } from '../../constants/ImgageUrlConstants';
 import StoreContext from '../../Context';
-import { doApiCallForVideosData } from '../../utils/ApiUtils/VideosDataApi';
 import FailurePage from '../FailurePage';
-import './index.css'
+import { StatusCodes } from '../../constants/StatusCode';
+import { videoDataFetchMachine } from '../../machine/videoDataFetchMachine';
 import VideoCardHomePage from './VedioCardHomePage';
+import './index.css'
+
+
 
 export default function HomePage() {
 
-  const [apiResponse, setApiResponse] = useState({});
   const [displayBannerBox, setDisplayBannerBox] = useState("block")
   const [searchValue, setSearchValue] = useState('')
 
-  const { currentTheme } = useContext(StoreContext);
 
-  const getHomeVediosData = async (value = '') => {
-    try {
-      const videoData = await doApiCallForVideosData(videosDataApis.homePageVideoDataApi, value)
-      setApiResponse(videoData)
-    }
-    catch (err) {
-      setApiResponse({});
-    }
+  const { currentTheme, } = useContext(StoreContext);
+  
+  const [state,send]=useMachine(videoDataFetchMachine);
+  const apiResponse=state.context.videoDataApiResponse
+
+  const getHomeVediosData =(value = '')=> {
+    send({
+      type:'GET_VIDEO_DATA',
+      url:videosDataApis.homePageVideoDataApi+value,
+    })
   }
 
   function handleClickOnCloseBannerBtn() {
@@ -34,6 +38,7 @@ export default function HomePage() {
   function handleChangesOnSearchBox(event) {
     setSearchValue(event.target.value)
   }
+  
   function handleClickOnSearchIcon() {
     getHomeVediosData(searchValue)
   }
@@ -89,12 +94,13 @@ export default function HomePage() {
 
   useEffect(() => {
     getHomeVediosData();
+    // eslint-disable-next-line
   }, [])
 
   return (
     <Layout>
-      {apiResponse.statusCode === '400' ? <FailurePage retryFetchingData={getHomeVediosData} /> :
-        apiResponse.statusCode === '200' ? showHomeVideos() : <Loader />
+      {apiResponse.statusCode >= StatusCodes.errorCode ? <FailurePage retryFetchingData={getHomeVediosData} /> :
+        apiResponse.statusCode === StatusCodes.successCode ? showHomeVideos() : <Loader />
       }
 
     </Layout>

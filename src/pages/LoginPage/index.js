@@ -1,11 +1,12 @@
-import { useActor } from '@xstate/react';
+import {  useMachine } from '@xstate/react';
 import queryString from 'query-string';
 import React, { useContext, useState } from 'react'
-import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Loader from '../../components/Loader';
 import { StatusCodes } from '../../constants/StatusCode';
 import StoreContext from '../../Context';
+import { authMachine } from '../../machine/authMachine';
+
 import './index.css'
 
 export default function LoginPage() {
@@ -17,8 +18,8 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [passwordType, setPasswordType] = useState(false)
 
-    const { stateMachine, currentTheme } = useContext(StoreContext);
-    const [state, send] = useActor(stateMachine);
+    const { currentTheme } = useContext(StoreContext);
+    const [state, send] = useMachine(authMachine)
     const apiResponse = state.context.loginApiResponse;
 
     const { redirectTo } = queryString.parse(location.search);

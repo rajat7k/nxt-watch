@@ -1,3 +1,4 @@
+import { useActor } from '@xstate/react';
 import React, { useContext, useEffect, useState } from 'react'
 import ReactPlayer from 'react-player/youtube'
 import { useParams } from 'react-router-dom'
@@ -5,6 +6,7 @@ import { useParams } from 'react-router-dom'
 import Icons from '../../components/Icons';
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
+import { videoDetailApi } from '../../constants/ApiConstants';
 import StoreContext from '../../Context';
 import GetYearDifference from '../../utils/GetYearDifferenceUtil';
 import './index.css'
@@ -13,40 +15,32 @@ export default function VideoDetailPage() {
 
   const params = useParams();
   const videoId = params.id;
-  const [videoDetails, setVideoDetail] = useState(null);
   const [isVideoLiked, setIsVideoLiked] = useState(false);
   const [isVideoDisliked, setIsVideoDisliked] = useState(false);
   const [isVideoSaved, setIsVideoSaved] = useState(false);
 
-  const { handleSavedVideosData, handleLikedVediosData, handleDisLikedVediosData, likedVideos, dislikedVideos, savedVideos, currentTheme } = useContext(StoreContext)
+
+
+  const { currentTheme, userStateMachine } = useContext(StoreContext)
+
+  const [state, send] = useActor(userStateMachine);
+
+  const videoDetails = state.context.videoDetail
 
   const getVideoDetails = async () => {
+    send({
+      type: 'GET_VIDEO_DETAIL',
+      url: videoDetailApi + videoId,
+    })
 
-    const URL = 'https://apis.ccbp.in/videos/' + videoId;
-    try {
-      const response = await fetch(URL, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("jwt_token")}`
-        }
-      }).then(result => { return result.json() }).catch(err => console.log(err));
-
-      setVideoDetail(response.video_details);
-    }
-    catch (err) {
-      console.log(err)
-    }
   }
 
   function handleClickOnSavedBtn() {
-    if (isVideoSaved) {
-      setIsVideoSaved(false)
-      handleSavedVideosData(videoDetails)
-    }
-    else {
-      setIsVideoSaved(true);
-      handleSavedVideosData(videoDetails)
-    }
+    send({
+      type: 'SAVE_VIDEO',
+      video: videoDetails?.data
+    });
+    setIsVideoSaved(!isVideoSaved)
   }
 
   function handleClickOnLikedBtn() {
@@ -54,7 +48,10 @@ export default function VideoDetailPage() {
       handleClickOnDislikeBtn()
     }
     setIsVideoLiked(!isVideoLiked)
-    handleLikedVediosData(videoDetails?.id);
+    send({
+      type: 'LIKED_VIDEO',
+      id: videoDetails?.data?.id,
+    })
 
   }
 
@@ -63,7 +60,10 @@ export default function VideoDetailPage() {
       handleClickOnLikedBtn()
     }
     setIsVideoDisliked(!isVideoDisliked)
-    handleDisLikedVediosData(videoDetails?.id);
+    send({
+      type: 'DISLIKED_VIDEO',
+      id: videoDetails?.data?.id,
+    })
 
   }
 
@@ -71,18 +71,21 @@ export default function VideoDetailPage() {
     getVideoDetails();
     // eslint-disable-next-line 
   }, [])
+
+
   useEffect(() => {
-    if (savedVideos.some(item => item.id === videoDetails?.id)) {
+    if (state.context.savedVideos.some(item => item.id === videoId)) {
       setIsVideoSaved(true)
     }
-    if (likedVideos.some(id => id === videoDetails?.id)) {
+    if (state.context.likedVideos.some(id => id === videoId)) {
       setIsVideoLiked(true);
     }
-    if (dislikedVideos.some(id => id === videoDetails?.id)) {
+    if (state.context.dislikedVideos.some(id => id === videoId)) {
       setIsVideoDisliked(true)
     }
     // eslint-disable-next-line
   }, [videoDetails])
+
 
   return (
     <Layout>
@@ -91,13 +94,13 @@ export default function VideoDetailPage() {
         videoDetails === null ? <Loader /> :
           <div className='videoDetailPage' style={{ backgroundColor: currentTheme?.allPageBgColor }} >
             <div className='react-player' >
-              <ReactPlayer url={videoDetails.video_url} width='100%' height='100%' />
+              <ReactPlayer url={videoDetails?.data?.video_url} width='100%' height='100%' />
             </div>
             <div className='vedio-detail-description-box' >
-              <p style={{ color: currentTheme?.normalTextColor }} > {videoDetails.title} </p>
+              <p style={{ color: currentTheme?.normalTextColor }} > {videoDetails?.data?.title} </p>
               <div className="view-count-and-btn-box">
 
-                <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails.view_count} views .  {GetYearDifference(videoDetails?.published_at)} years ago </p>
+                <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails?.data?.view_count} views .  {GetYearDifference(videoDetails?.data?.published_at)} years ago </p>
 
                 <div className="like-dislike-btn-box">
                   <button onClick={handleClickOnLikedBtn} className="like-box" style={{ color: isVideoLiked ? '#3b82f6' : 'inherit' }}>
@@ -120,17 +123,17 @@ export default function VideoDetailPage() {
 
               <div className="video-detail-profile-box">
                 <div>
-                  <img className='vedio-detail-page-profile-img' src={videoDetails.channel.profile_image_url} alt="" />
+                  <img className='vedio-detail-page-profile-img' src={videoDetails?.data?.channel.profile_image_url} alt="" />
                   <div className="video-detail-profile-channel-name-box">
                     <p style={{ color: currentTheme?.normalTextColor }}>
-                      {videoDetails.channel.name}
+                      {videoDetails?.data?.channel.name}
                     </p>
-                    <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails.channel.subscriber_count} subscribers
+                    <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails?.data?.channel.subscriber_count} subscribers
                     </p>
                   </div>
                 </div>
                 <div style={{ color: currentTheme.themeName === 'light' ? '#475569' : '#ffffff' }} className='video-detail-profile-description' >
-                  {videoDetails.description}
+                  {videoDetails?.data?.description}
                 </div>
               </div>
             </div>

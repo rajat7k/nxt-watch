@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useMachine } from '@xstate/react';
 import BannerComponent from '../../components/Banner';
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
 import { videosDataApis } from '../../constants/ApiConstants';
-import { doApiCallForVideosData } from '../../utils/ApiUtils/VideosDataApi';
+import { StatusCodes } from '../../constants/StatusCode';
+import { videoDataFetchMachine } from '../../machine/videoDataFetchMachine';
 import FailurePage from '../FailurePage';
 import VideoCardGamingPage from './VedioCardGamingPage';
+
 import './index.css'
 
 
 export default function GamingPage() {
 
-  const [apiResponse, setApiResponse] = useState({});
 
+  const [state, send] = useMachine(videoDataFetchMachine)
+  const apiResponse = state.context.videoDataApiResponse
 
-  const getGamingVideos = async () => {
-    try {
-      const videoData = await doApiCallForVideosData(videosDataApis.gamingVideoDataApi)
-      setApiResponse(videoData)
-    }
-    catch (err) {
-      setApiResponse({});
-    }
+  const getGamingVideos = () => {
+    send({
+      type: 'GET_VIDEO_DATA',
+      url: videosDataApis.gamingVideoDataApi,
+    })
   }
 
   function showGamingVideos() {
@@ -40,14 +41,13 @@ export default function GamingPage() {
 
   useEffect(() => {
     getGamingVideos();
+    // eslint-disable-next-line
   }, [])
 
   return (
     <Layout>
       {
-
-        apiResponse.statusCode === '200' ? showGamingVideos() : apiResponse.statusCode === '400' ? <FailurePage retryFetchingData={getGamingVideos} /> : <Loader />
-
+        apiResponse.statusCode === StatusCodes.successCode ? showGamingVideos() : apiResponse.statusCode >= StatusCodes.errorCode ? <FailurePage retryFetchingData={getGamingVideos} /> : <Loader />
       }
     </Layout>
   )

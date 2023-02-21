@@ -7,19 +7,20 @@ import { videosDataApis } from '../../constants/ApiConstants';
 import FailurePage from '../FailurePage';
 import VideoCardTrendingPage from './VideoCardTrendingPage';
 import './index.css'
+import { StatusCodes } from '../../constants/StatusCode';
+import { useMachine } from '@xstate/react';
+import { videoDataFetchMachine } from '../../machine/videoDataFetchMachine';
 
 export default function TrendingPage() {
 
-  const [apiResponse, setApiResponse] = useState({});
+  const [state, send] = useMachine(videoDataFetchMachine)
+  const apiResponse = state.context.videoDataApiResponse
 
   const getTrendingVideos = async () => {
-    try {
-      const videoData = await doApiCallForVideosData(videosDataApis.trendingVideoDataApi)
-      setApiResponse(videoData)
-    }
-    catch (err) {
-      setApiResponse({});
-    }
+    send({
+      type: 'GET_VIDEO_DATA',
+      url: videosDataApis.trendingVideoDataApi,
+    })
   }
 
   function showTrendingVideos() {
@@ -38,13 +39,14 @@ export default function TrendingPage() {
 
   useEffect(() => {
     getTrendingVideos();
+    // eslint-disable-next-line
   }, [])
 
   return (
     <Layout>
       {
 
-        apiResponse.statusCode === '200' ? showTrendingVideos() : apiResponse.statusCode === '400' ? <FailurePage retryFetchingData={getTrendingVideos} /> : <Loader />
+        apiResponse.statusCode === StatusCodes.successCode ? showTrendingVideos() : apiResponse.statusCode >= StatusCodes.errorCode ? <FailurePage retryFetchingData={getTrendingVideos} /> : <Loader />
 
       }
     </Layout>

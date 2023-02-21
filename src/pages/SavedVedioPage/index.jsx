@@ -4,11 +4,14 @@ import StoreContext from '../../Context'
 import BannerComponent from '../../components/Banner'
 import SavedVideoCard from './SavedVideoCard'
 import './index.css'
+import { useActor } from '@xstate/react'
 
 export default function SavedVideosPage() {
 
   // function
-  const { savedVideos, currentTheme } = useContext(StoreContext)
+  const { currentTheme, userStateMachine } = useContext(StoreContext)
+  const [state,] = useActor(userStateMachine);
+  const savedVideos = state.context.savedVideos
   return (
     <Layout>
       {
