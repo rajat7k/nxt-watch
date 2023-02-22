@@ -50,7 +50,7 @@ export default function VideoDetailPage() {
     setIsVideoLiked(!isVideoLiked)
     send({
       type: 'LIKED_VIDEO',
-      id: videoDetails?.data?.id,
+      id: videoId,
     })
 
   }
@@ -62,7 +62,7 @@ export default function VideoDetailPage() {
     setIsVideoDisliked(!isVideoDisliked)
     send({
       type: 'DISLIKED_VIDEO',
-      id: videoDetails?.data?.id,
+      id: videoId,
     })
 
   }
@@ -74,13 +74,14 @@ export default function VideoDetailPage() {
 
 
   useEffect(() => {
-    if (state.context.savedVideos.some(item => item.id === videoId)) {
+    const { savedVideos, likedVideos, dislikedVideos } = state.context;
+    if (savedVideos.some(item => item.id === videoId)) {
       setIsVideoSaved(true)
     }
-    if (state.context.likedVideos.some(id => id === videoId)) {
+    if (likedVideos.some(id => id === videoId)) {
       setIsVideoLiked(true);
     }
-    if (state.context.dislikedVideos.some(id => id === videoId)) {
+    if (dislikedVideos.some(id => id === videoId)) {
       setIsVideoDisliked(true)
     }
     // eslint-disable-next-line

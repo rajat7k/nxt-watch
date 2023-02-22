@@ -10,7 +10,9 @@ export const authMachine = createMachine(
                 loginApiResponse: {},
             },
             states: {
+            
                 idleLoginState: {
+                    id:'loginIdState',
                     on: {
                         LOGIN: {
                             target: 'checkUserDetails',
@@ -30,7 +32,7 @@ export const authMachine = createMachine(
                             actions: ['assignLoginApiResponse', 'saveTokenToLocalStorage']
                         },
                         onError: {
-                            target: '#loginState',
+                            target: '#loginIdState',
                             actions: 'assignLoginApiResponse'
                         }
                     }
