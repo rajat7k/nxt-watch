@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ScreenSizeConstants } from "../constants/ScreenSizeContants";
 
 const withReloadOnScreenChange = (WrappedComp) => {
 
@@ -6,15 +7,15 @@ const withReloadOnScreenChange = (WrappedComp) => {
 
     function WithReloadOnScreenChange() {
 
-        const [isMobile,setIsMobile]=useState(window.innerWidth<=768)
+        const [isMobile,setIsMobile]=useState(window.innerWidth<=ScreenSizeConstants.tabletScreenSize)
         
         function handleWindowSizeChange() {
-            if(window.innerWidth<=768 && !isMobile){
-                window.location.reload(false);
+            if(window.innerWidth<=ScreenSizeConstants.tabletScreenSize && !isMobile){
+                window.location.reload();
                 setIsMobile(true);
             }
-            if(window.innerWidth>768 && isMobile){
-                window.location.reload(false);
+            else if(window.innerWidth>ScreenSizeConstants.tabletScreenSize && isMobile){
+                window.location.reload();
                 setIsMobile(true);
             }
             
@@ -27,9 +28,6 @@ const withReloadOnScreenChange = (WrappedComp) => {
             }
             //eslint-disable-next-line
         }, []);
-
-        console.log("HOC createing")
-
         return <WrappedComp />;
     }
 

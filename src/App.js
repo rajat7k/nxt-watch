@@ -11,9 +11,11 @@ import PublicRoute from './components/PublicRoute';
 import NoRouteFoundPage from './pages/NoRouteFoundPage';
 import StoreState from './Context/StoreState';
 import { routePath } from './constants/RouteConstants';
+import withReloadOnScreenChange from './HOC/withReloadOnScreenChange';
 import './App.css';
 
-export default function App() {
+
+function App() {
   return (
    <StoreState>
      <Router>
@@ -32,3 +34,5 @@ export default function App() {
    </StoreState>
   )
 }
+
+export default withReloadOnScreenChange(App)

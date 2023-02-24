@@ -11,11 +11,10 @@ import { videoDataFetchMachine } from '../../machine/videoDataFetchMachine';
 import VideoCardHomePage from './VedioCardHomePage';
 import './index.css'
 import { useTranslation } from 'react-i18next';
-import withReloadOnScreenChange from '../../HOC/withReloadOnScreenChange';
 
 
 
-function HomePage() {
+export default function HomePage() {
 
   const [displayBannerBox, setDisplayBannerBox] = useState("block")
   const [searchValue, setSearchValue] = useState('')
@@ -108,5 +107,3 @@ function HomePage() {
     </Layout>
   )
 }
-
-export default withReloadOnScreenChange(HomePage)

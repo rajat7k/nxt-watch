@@ -9,6 +9,7 @@ export const verifyUserDetail = async (userDetails) => {
             method: "POST",
             body: JSON.stringify(userDetails)
         }).then(result => { return result.json() }).catch(err => console.log(err))   
+        
         return  new Promise((resolve,reject)=>{
             if(response.status_code>=StatusCodes.errorCode){
                 return  reject({

@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
 import BannerComponent from '../../components/Banner';
-import { doApiCallForVideosData } from '../../utils/ApiUtils/VideosDataApi';
 import { videosDataApis } from '../../constants/ApiConstants';
 import FailurePage from '../FailurePage';
 import VideoCardTrendingPage from './VideoCardTrendingPage';
