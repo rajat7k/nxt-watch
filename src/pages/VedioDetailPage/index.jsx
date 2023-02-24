@@ -1,5 +1,6 @@
 import { useActor } from '@xstate/react';
 import React, { useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
 import ReactPlayer from 'react-player/youtube'
 import { useParams } from 'react-router-dom'
 
@@ -19,7 +20,7 @@ export default function VideoDetailPage() {
   const [isVideoDisliked, setIsVideoDisliked] = useState(false);
   const [isVideoSaved, setIsVideoSaved] = useState(false);
 
-
+  const { t } = useTranslation();
 
   const { currentTheme, userStateMachine } = useContext(StoreContext)
 
@@ -101,21 +102,21 @@ export default function VideoDetailPage() {
               <p style={{ color: currentTheme?.normalTextColor }} > {videoDetails?.data?.title} </p>
               <div className="view-count-and-btn-box">
 
-                <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails?.data?.view_count} views .  {GetYearDifference(videoDetails?.data?.published_at)} years ago </p>
+                <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails?.data?.view_count} {t('views')} .  {GetYearDifference(videoDetails?.data?.published_at)} {t('years_age')} </p>
 
                 <div className="like-dislike-btn-box">
                   <button onClick={handleClickOnLikedBtn} className="like-box" style={{ color: isVideoLiked ? '#3b82f6' : 'inherit' }}>
                     {<Icons iconName='like-icon' iconColor={isVideoLiked ? '#3b82f6' : '#64748b'} />}
-                    {isVideoLiked ? "Liked" : "Like"}
+                    {isVideoLiked ? `${t('liked')}` : `${t('like')}`}
                   </button>
                   <button className="dislike-box" onClick={handleClickOnDislikeBtn} style={{ color: isVideoDisliked ? '#3b82f6' : 'inherit' }} >
                     {<Icons iconName='dislike-icon' iconColor={isVideoDisliked ? '#3b82f6' : '#64748b'} />}
-                    {isVideoDisliked ? "Disliked" : "Dislike"}
+                    {isVideoDisliked ? `${t('disliked')}` : `${t('dislike')}`}
                   </button>
                   <button onClick={handleClickOnSavedBtn} className="save-video-box" style={{ color: isVideoSaved ? '#3b82f6' : 'inherit' }}>
                     {<Icons iconName='save-video-icon' iconColor={isVideoSaved ? '#3b82f6' : '#64748b'} />}
 
-                    {isVideoSaved ? "Saved" : "Save"}
+                    {isVideoSaved ? `${t('saved')}` : `${t('save')}`}
                   </button>
                 </div>
               </div>
@@ -129,7 +130,7 @@ export default function VideoDetailPage() {
                     <p style={{ color: currentTheme?.normalTextColor }}>
                       {videoDetails?.data?.channel.name}
                     </p>
-                    <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails?.data?.channel.subscriber_count} subscribers
+                    <p style={{ color: currentTheme?.videoDetailColor }}  > {videoDetails?.data?.channel.subscriber_count} {t('subscriber')}
                     </p>
                   </div>
                 </div>

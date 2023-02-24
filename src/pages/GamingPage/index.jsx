@@ -10,10 +10,12 @@ import FailurePage from '../FailurePage';
 import VideoCardGamingPage from './VedioCardGamingPage';
 
 import './index.css'
+import { useTranslation } from 'react-i18next';
 
 
 export default function GamingPage() {
 
+  const { t } = useTranslation();
 
   const [state, send] = useMachine(videoDataFetchMachine)
   const apiResponse = state.context.videoDataApiResponse
@@ -27,7 +29,7 @@ export default function GamingPage() {
 
   function showGamingVideos() {
     return <div className="gaming-page">
-      <BannerComponent iconName='gaming-icon' >Gaming</BannerComponent>
+      <BannerComponent iconName='gaming-icon' > {t('Gaming')} </BannerComponent>
       <div className="gaming-page-vedio-container">
         {
           apiResponse.videoDataArray.map((video) => {

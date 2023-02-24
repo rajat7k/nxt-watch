@@ -10,11 +10,14 @@ import './index.css'
 import { StatusCodes } from '../../constants/StatusCode';
 import { useMachine } from '@xstate/react';
 import { videoDataFetchMachine } from '../../machine/videoDataFetchMachine';
+import { useTranslation } from 'react-i18next';
 
 export default function TrendingPage() {
 
   const [state, send] = useMachine(videoDataFetchMachine)
   const apiResponse = state.context.videoDataApiResponse
+
+  const { t } = useTranslation();
 
   const getTrendingVideos = async () => {
     send({
@@ -25,7 +28,7 @@ export default function TrendingPage() {
 
   function showTrendingVideos() {
     return <div className="trending-page">
-      <BannerComponent iconName='trending-icon' >Trending</BannerComponent>
+      <BannerComponent iconName='trending-icon' > {t('Trending')} </BannerComponent>
       <div className="trending-page-vedio-container">
         {
           apiResponse.videoDataArray.map((video) => {

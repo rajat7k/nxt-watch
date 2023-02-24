@@ -1,6 +1,7 @@
 import {  useMachine } from '@xstate/react';
 import queryString from 'query-string';
 import React, { useContext, useState } from 'react'
+import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from 'react-router-dom';
 import Loader from '../../components/Loader';
 import { StatusCodes } from '../../constants/StatusCode';
@@ -13,6 +14,8 @@ export default function LoginPage() {
 
     const navigate = useNavigate()
     const location = useLocation();
+
+    const {t}=useTranslation();
 
     const [userName, setUserName] = useState('');
     const [password, setPassword] = useState('');
@@ -57,18 +60,18 @@ export default function LoginPage() {
                 <img className='login-logo-light' src={currentTheme?.nxtwatchLogo} alt="" />
             </div>
             <div className="login-input-box">
-                <p>USERNAME</p>
-                <input onChange={onChangeUserName} value={userName} type="text" placeholder='Username' />
+                <p> {t('username').toUpperCase()} </p>
+                <input onChange={onChangeUserName} value={userName} type="text" placeholder={t('username')} />
             </div>
             <div className="login-input-box">
-                <p>PASSWORD</p>
-                <input onChange={onChangePassword} value={password} type={passwordType ? 'text' : 'password'} placeholder='Password' />
+                <p> {t('password').toUpperCase()} </p>
+                <input onChange={onChangePassword} value={password} type={passwordType ? 'text' : 'password'} placeholder={t('password')} />
             </div>
             <div className="show-password-box" onClick={handleClickOnShowPasswordInput}>
                 <input onChange={e => { }} checked={passwordType} type="checkbox" />
-                <label htmlFor="">Show Password</label>
+                <label htmlFor=""> {t('show')} { t('password') }</label>
             </div>
-            <button onClick={handleClickOnLoginBtn} className='login-btn'>Login</button>
+            <button onClick={handleClickOnLoginBtn} className='login-btn'> {t('login')} </button>
             {apiResponse?.errorMsg && <p className='login-error-msg' > *{apiResponse?.errorMsg} </p>}
         </div>
     }

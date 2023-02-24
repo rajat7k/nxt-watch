@@ -24,7 +24,7 @@
 .nav-menu-box {
     display: flex;
     align-items: center;
-    width: 200px;
+    width: 250px;
     justify-content: space-around;
     margin-right: 20px;
 }
@@ -61,6 +61,37 @@
 .darktheme-logout-btn{
     border: 1px solid #ffffff;
 }
+
+
+
+.language-dropdown {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #333;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    margin-right: 6px;
+  }
+  
+  .language-dropdown option {
+    padding: 8px;
+    background-color: #fff;
+    color: #333;
+  }
+  
+ .language-dropdown option:hover {
+    background-color: #f2f2f2;
+  }
+  
+ .language-dropdown option:checked {
+    background-color: #e6e6e6;
+  }
+  
+
 
 /* layout body */
 
@@ -139,8 +170,6 @@
 
 
 
-
-
 @media screen and (max-width:768px) {
 
     .layout-sidebar {
@@ -183,5 +212,8 @@
         width: 24px;
     }
     
+    .language-dropdown{
+        display: none;
+    }
 
 }

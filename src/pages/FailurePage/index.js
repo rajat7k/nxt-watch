@@ -1,10 +1,12 @@
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import StoreContext from '../../Context'
 import './index.css'
 
 function FailurePage(props) {
   const {retryFetchingData}=props
   const {currentTheme}=useContext(StoreContext)
+  const {t}=useTranslation();
 
   function handleClickOnRetryBtn(){
     retryFetchingData();
@@ -14,13 +16,12 @@ function FailurePage(props) {
     <div className='failure-page-video-container' style={{ color: currentTheme?.normalTextColor }} >
             <img className='failure-page-video-img' src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png" alt="" />
             <p className="failure-page-videos-heading" >
-              Oops! Something Went Wrong
+              {t('something_wrong_msg')}
             </p>
             <p className="failure-page-videos-para"   >
-              We are having some trouble to complete your request.
-              Please try again.
+              {t('something_wrong_msg_detail')}
             </p>
-            <button onClick={handleClickOnRetryBtn} className='failure-page-retry-btn' >Retry</button>
+            <button onClick={handleClickOnRetryBtn} className='failure-page-retry-btn' > {t('retry')} </button>
           </div> 
   )
 }

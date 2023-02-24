@@ -10,6 +10,7 @@ import { StatusCodes } from '../../constants/StatusCode';
 import { videoDataFetchMachine } from '../../machine/videoDataFetchMachine';
 import VideoCardHomePage from './VedioCardHomePage';
 import './index.css'
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -17,7 +18,7 @@ export default function HomePage() {
 
   const [displayBannerBox, setDisplayBannerBox] = useState("block")
   const [searchValue, setSearchValue] = useState('')
-
+  const {t}=useTranslation();
 
   const { currentTheme, } = useContext(StoreContext);
   
@@ -58,9 +59,9 @@ export default function HomePage() {
       color: currentTheme?.normalTextColor
     }}>
       <img className='no-search-image' src={ImageUrl.homeNoSearchResultImage} alt="no videos" />
-      <h2>No Search results Found</h2>
-      <p>Try different key words or remove search filter</p>
-      <button onClick={getHomeVediosData} >Retry</button>
+      <h2> { t('no') } {t('search')} {t('results')} {t('found')} </h2>
+      <p> {t('no_search_mst')} </p>
+      <button onClick={getHomeVediosData} > {t('retry')} </button>
     </div>
   }
 
