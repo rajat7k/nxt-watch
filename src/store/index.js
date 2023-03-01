@@ -1,4 +1,5 @@
 import AuthStoreMobx from "./authStore";
+import ThemeStore from "./themeStore";
 import VideoDetailStore from "./videDetailStore";
 import VideoDataFetchStore from "./videoDataFetchingStore";
 
@@ -10,6 +11,7 @@ class RootStore{
         this.trendingVideoDataFetchStore=new VideoDataFetchStore()
         this.gamingVideoDataFetchStore=new VideoDataFetchStore()
         this.videoDetailStore=new VideoDetailStore()
+        this.themeStore=new ThemeStore();
     }
 }
 
