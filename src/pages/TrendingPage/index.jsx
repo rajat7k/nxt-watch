@@ -1,28 +1,26 @@
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next';
+import { inject, observer } from 'mobx-react';
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
 import BannerComponent from '../../components/Banner';
 import { videosDataApis } from '../../constants/ApiConstants';
+import { StatusCodes } from '../../constants/StatusCode';
 import FailurePage from '../FailurePage';
 import VideoCardTrendingPage from './VideoCardTrendingPage';
 import './index.css'
-import { StatusCodes } from '../../constants/StatusCode';
-import { useMachine } from '@xstate/react';
-import { videoDataFetchMachine } from '../../machine/videoDataFetchMachine';
-import { useTranslation } from 'react-i18next';
 
-export default function TrendingPage() {
+const TrendingPage = inject('rootStore')(observer((props) => {
 
-  const [state, send] = useMachine(videoDataFetchMachine)
-  const apiResponse = state.context.videoDataApiResponse
+  const { rootStore } = props
+  const apiResponse = rootStore.trendingVideoDataFetchStore.videoDataApiResponse
 
   const { t } = useTranslation();
 
   const getTrendingVideos = async () => {
-    send({
-      type: 'GET_VIDEO_DATA',
-      url: videosDataApis.trendingVideoDataApi,
-    })
+    const url = videosDataApis.trendingVideoDataApi
+    rootStore.trendingVideoDataFetchStore.fetchVideoData(url)
+
   }
 
   function showTrendingVideos() {
@@ -53,4 +51,6 @@ export default function TrendingPage() {
       }
     </Layout>
   )
-}
+}))
+
+export default TrendingPage

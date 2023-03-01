@@ -1,3 +1,5 @@
+import { nxtwatchLogos } from "./ImgageUrlConstants"
+
 export const darkTheme = {
     themeName: "dark",
     homeBackgroundColor: "#181818",
@@ -9,7 +11,7 @@ export const darkTheme = {
     videoDetailColor: '#64748b',
     allPageBgColor: '#0f0f0f',
     bannerBgColor: '#181818',
-    nxtwatchLogo: 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png',
+    nxtwatchLogo: nxtwatchLogos.darkThemeLogo,
 
 }
 export  const lightTheme = {
@@ -20,5 +22,5 @@ export  const lightTheme = {
     normalTextColor: "#231f20",
     videoDetailColor: '#64748b',
     allPageBgColor: '#f9f9f9',
-    nxtwatchLogo: 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png',
+    nxtwatchLogo: nxtwatchLogos.lightThemeLogo,
 }

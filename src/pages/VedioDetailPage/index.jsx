@@ -1,18 +1,22 @@
-import { useActor } from '@xstate/react';
+import { inject, observer } from 'mobx-react';
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import ReactPlayer from 'react-player/youtube'
 import { useParams } from 'react-router-dom'
-
 import Icons from '../../components/Icons';
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
 import { videoDetailApi } from '../../constants/ApiConstants';
+import { StatusCodes } from '../../constants/StatusCode';
 import StoreContext from '../../Context';
 import GetYearDifference from '../../utils/GetYearDifferenceUtil';
 import './index.css'
 
-export default function VideoDetailPage() {
+const VideoDetailPage = inject('rootStore')(observer((props) => {
+
+
+  const { videoDetailStore } = props.rootStore
+  const videoDetails = videoDetailStore.videoDetail;
 
   const params = useParams();
   const videoId = params.id;
@@ -22,25 +26,18 @@ export default function VideoDetailPage() {
 
   const { t } = useTranslation();
 
-  const { currentTheme, userStateMachine } = useContext(StoreContext)
+  const { currentTheme } = useContext(StoreContext)
 
-  const [state, send] = useActor(userStateMachine);
 
-  const videoDetails = state.context.videoDetail
 
   const getVideoDetails = async () => {
-    send({
-      type: 'GET_VIDEO_DETAIL',
-      url: videoDetailApi + videoId,
-    })
+    const url = videoDetailApi + videoId
 
+    videoDetailStore.GetVideoDetail(url)
   }
 
   function handleClickOnSavedBtn() {
-    send({
-      type: 'SAVE_VIDEO',
-      video: videoDetails?.data
-    });
+    videoDetailStore.SaveVideo(videoDetails?.data)
     setIsVideoSaved(!isVideoSaved)
   }
 
@@ -49,10 +46,7 @@ export default function VideoDetailPage() {
       handleClickOnDislikeBtn()
     }
     setIsVideoLiked(!isVideoLiked)
-    send({
-      type: 'LIKED_VIDEO',
-      id: videoId,
-    })
+    videoDetailStore.LikeVideo(videoId);
 
   }
 
@@ -61,10 +55,7 @@ export default function VideoDetailPage() {
       handleClickOnLikedBtn()
     }
     setIsVideoDisliked(!isVideoDisliked)
-    send({
-      type: 'DISLIKED_VIDEO',
-      id: videoId,
-    })
+    videoDetailStore.DislikeVideo(videoId);
 
   }
 
@@ -75,7 +66,7 @@ export default function VideoDetailPage() {
 
 
   useEffect(() => {
-    const { savedVideos, likedVideos, dislikedVideos } = state.context;
+    const { savedVideos, likedVideos, dislikedVideos } = videoDetailStore;
     if (savedVideos.some(item => item.id === videoId)) {
       setIsVideoSaved(true)
     }
@@ -93,7 +84,7 @@ export default function VideoDetailPage() {
     <Layout>
 
       {
-        videoDetails === null ? <Loader /> :
+        videoDetails.statusCode === StatusCodes.initialCode ? <Loader /> :
           <div className='videoDetailPage' style={{ backgroundColor: currentTheme?.allPageBgColor }} >
             <div className='react-player' >
               <ReactPlayer url={videoDetails?.data?.video_url} width='100%' height='100%' />
@@ -144,4 +135,6 @@ export default function VideoDetailPage() {
 
     </Layout >
   )
-}
+}))
+
+export default VideoDetailPage

@@ -1,9 +1,11 @@
+const baseUrl='https://apis.ccbp.in/'
+
 export const videosDataApis={
-    homePageVideoDataApi:'https://apis.ccbp.in/videos/all?search=',
-    gamingVideoDataApi:'https://apis.ccbp.in/videos/gaming',
-    trendingVideoDataApi:'https://apis.ccbp.in/videos/trending',
+    homePageVideoDataApi:baseUrl+'videos/all?search=',
+    gamingVideoDataApi:baseUrl+'videos/gaming',
+    trendingVideoDataApi:baseUrl+'videos/trending',
 }
 
-export const videoDetailApi= 'https://apis.ccbp.in/videos/'
+export const videoDetailApi= baseUrl+'videos/'
 
-export const loginApi='https://apis.ccbp.in/login'
+export const loginApi=baseUrl+'login'

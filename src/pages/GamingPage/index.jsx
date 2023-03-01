@@ -1,30 +1,28 @@
 import React, { useEffect } from 'react'
-import { useMachine } from '@xstate/react';
+import { useTranslation } from 'react-i18next';
+import { inject, observer } from 'mobx-react';
 import BannerComponent from '../../components/Banner';
 import Layout from '../../components/Layout'
 import Loader from '../../components/Loader';
 import { videosDataApis } from '../../constants/ApiConstants';
 import { StatusCodes } from '../../constants/StatusCode';
-import { videoDataFetchMachine } from '../../machine/videoDataFetchMachine';
 import FailurePage from '../FailurePage';
 import VideoCardGamingPage from './VedioCardGamingPage';
 
 import './index.css'
-import { useTranslation } from 'react-i18next';
 
 
-export default function GamingPage() {
+
+const GamingPage = inject('rootStore')(observer((props) => {
 
   const { t } = useTranslation();
 
-  const [state, send] = useMachine(videoDataFetchMachine)
-  const apiResponse = state.context.videoDataApiResponse
+  const { rootStore } = props
+  const apiResponse = rootStore.gamingVideoDataFetchStore.videoDataApiResponse
 
   const getGamingVideos = () => {
-    send({
-      type: 'GET_VIDEO_DATA',
-      url: videosDataApis.gamingVideoDataApi,
-    })
+    const url = videosDataApis.gamingVideoDataApi;
+    rootStore.gamingVideoDataFetchStore.fetchVideoData(url)
   }
 
   function showGamingVideos() {
@@ -53,4 +51,6 @@ export default function GamingPage() {
       }
     </Layout>
   )
-}
+}))
+
+export default GamingPage

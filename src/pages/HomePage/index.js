@@ -7,14 +7,16 @@ import { ImageUrl } from '../../constants/ImgageUrlConstants';
 import StoreContext from '../../Context';
 import FailurePage from '../FailurePage';
 import { StatusCodes } from '../../constants/StatusCode';
-import { videoDataFetchMachine } from '../../machine/videoDataFetchMachine';
 import VideoCardHomePage from './VedioCardHomePage';
-import './index.css'
 import { useTranslation } from 'react-i18next';
+import { inject, observer } from 'mobx-react';
+import './index.css'
 
 
+ const  HomePage= inject("rootStore")(observer((props)=> {
 
-export default function HomePage() {
+  const {rootStore}=props
+  const apiResponse=rootStore.homeVideoDataFetchStore.videoDataApiResponse
 
   const [displayBannerBox, setDisplayBannerBox] = useState("block")
   const [searchValue, setSearchValue] = useState('')
@@ -22,14 +24,10 @@ export default function HomePage() {
 
   const { currentTheme, } = useContext(StoreContext);
   
-  const [state,send]=useMachine(videoDataFetchMachine);
-  const apiResponse=state.context.videoDataApiResponse
 
   const getHomeVediosData =(value = '')=> {
-    send({
-      type:'GET_VIDEO_DATA',
-      url:videosDataApis.homePageVideoDataApi+value,
-    })
+    const url=videosDataApis.homePageVideoDataApi+value
+    rootStore.homeVideoDataFetchStore.fetchVideoData(url)
   }
 
   function handleClickOnCloseBannerBtn() {
@@ -106,4 +104,6 @@ export default function HomePage() {
 
     </Layout>
   )
-}
+}))
+
+export default HomePage

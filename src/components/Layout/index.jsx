@@ -1,30 +1,23 @@
 import React, { useContext, useState } from 'react'
-import { useActor } from '@xstate/react';
+import { inject, observer } from 'mobx-react';
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { sideBarMenu } from '../../constants/SideBarMenuConstants';
 import StoreContext from '../../Context';
-import Icons from '../Icons';
 import ModalLogout from '../ModalLogout';
-
 import i18n from "../../i18n/i18n"
-
+import Icons from '../Icons';
 import './index.css'
 
+const Layout = inject('rootStore')(observer((props) => {
 
-export default function Layout(props) {
+    const { children, rootStore } = props
 
-    const { children } = props
     const navigate = useNavigate()
     const location = useLocation();
     const [isLogoutModelOpen, setIsLogoutModelOpen] = useState(false);
-
     const { t } = useTranslation()
-
-    const { currentTheme, handleClickOnDarkTheme, userStateMachine } = useContext(StoreContext);
-    const [, send] = useActor(userStateMachine);
-
-
+    const { currentTheme, handleClickOnDarkTheme } = useContext(StoreContext);
 
     const handleCloseModal = () => {
         setIsLogoutModelOpen(false)
@@ -35,7 +28,7 @@ export default function Layout(props) {
     }
 
     const handleLogoutRequest = () => {
-        send('LOGOUT');
+        rootStore.authStore.Logout()
         navigate('/login');
         handleCloseModal()
     }
@@ -150,4 +143,6 @@ export default function Layout(props) {
             </div>
         </div >
     )
-}
+}))
+
+export default Layout

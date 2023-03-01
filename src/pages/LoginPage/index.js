@@ -1,4 +1,4 @@
-import {  useMachine } from '@xstate/react';
+import { inject, observer } from 'mobx-react';
 import queryString from 'query-string';
 import React, { useContext, useState } from 'react'
 import { useTranslation } from "react-i18next";
@@ -6,11 +6,14 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Loader from '../../components/Loader';
 import { StatusCodes } from '../../constants/StatusCode';
 import StoreContext from '../../Context';
-import { authMachine } from '../../machine/authMachine';
 
 import './index.css'
 
-export default function LoginPage() {
+const LoginPage=inject('rootStore')(observer((props)=> {
+
+    const {rootStore}=props
+    const apiResponse=rootStore.authStore.response
+    console.log(apiResponse,"loginPage")
 
     const navigate = useNavigate()
     const location = useLocation();
@@ -22,10 +25,10 @@ export default function LoginPage() {
     const [passwordType, setPasswordType] = useState(false)
 
     const { currentTheme } = useContext(StoreContext);
-    const [state, send] = useMachine(authMachine)
-    const apiResponse = state.context.loginApiResponse;
 
     const { redirectTo } = queryString.parse(location.search);
+
+
 
     function onChangeUserName(event) {
         setUserName(event.target.value)
@@ -40,14 +43,11 @@ export default function LoginPage() {
 
 
     function handleClickOnLoginBtn() {
-        send({
-            type: 'LOGIN',
-            userDetails: {
-                "username": userName,
-                "password": password
-            },
-        })
-
+        const userDetails= {
+            "username": userName,
+            "password": password
+        }
+        rootStore.authStore.tryLogin(userDetails);
     }
 
     function loginCard() {
@@ -92,4 +92,6 @@ export default function LoginPage() {
 
         </div>
     )
-}
+}))
+
+export default LoginPage
