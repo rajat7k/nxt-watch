@@ -17,7 +17,10 @@ const Layout = inject('rootStore')(observer((props) => {
     const location = useLocation();
     const [isLogoutModelOpen, setIsLogoutModelOpen] = useState(false);
     const { t } = useTranslation()
-    const { currentTheme, handleClickOnDarkTheme } = useContext(StoreContext);
+
+    const { handleClickOnDarkTheme } = useContext(StoreContext);
+
+    const currentTheme = rootStore.themeStore.currentTheme
 
     const handleCloseModal = () => {
         setIsLogoutModelOpen(false)
@@ -35,6 +38,7 @@ const Layout = inject('rootStore')(observer((props) => {
 
     function changeTheme() {
         handleClickOnDarkTheme();
+        rootStore.themeStore.ToggleTheme();
     }
 
     function handleChangeLanguage(event) {
